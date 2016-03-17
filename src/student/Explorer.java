@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * @author Jade Dickinson BBK-PiJ-2015-08
+ */
 public class Explorer {
 
     /**
@@ -17,51 +20,38 @@ public class Explorer {
      * than returning, it will not count.
      * If you return from this function while not standing on top of the orb,
      * it will count as a failure.
-     * <p>
+     *
      * There is no limit to how many steps you can take, but you will receive
      * a score bonus multiplier for finding the orb in fewer steps.
-     * <p>
+     *
      * At every step, you only know your current tile's ID and the ID of all
-     * open neighbor tiles, as well as the distance to the orb at each of these tiles
-     * (ignoring walls and obstacles).
-     * <p>
+     * open neighbor tiles, as well as the distance to the orb at each of these
+     * tiles (ignoring walls and obstacles).
+     *
      * To get information about the current state, use functions
      * getCurrentLocation(),
      * getNeighbours(), and
      * getDistanceToTarget()
      * in ExplorationState.
      * You know you are standing on the orb when getDistanceToTarget() is 0.
-     * <p>
+     *
      * Use function moveTo(long id) in ExplorationState to move to a neighboring
      * tile by its ID. Doing this will change state to reflect your new position.
-     * <p>
-     * A suggested first implementation that will always find the orb, but likely won't
-     * receive a large bonus multiplier, is a depth-first search.
+     *
+     * A suggested first implementation that will always find the orb, but
+     * likely won't receive a large bonus multiplier, is a depth-first search.
+     *
+     * JD: thoughts on possible algorithms
+     * Depth-first (Stack)
+     * Breadth-first (Queue)
+     * Best first (Priority Queue) <- there is on in this project.
+     * A* (also uses a Priority Queue)
+     * Dijkstra's algorithm
      *
      * @param state the information available at the current state
      */
     public void explore(ExplorationState state) {
-        //Keith wrote the below in class
-        Set<Long> seen = new LinkedHashSet<>();
 
-        while (state.getDistanceToTarget() != 0) {
-            Collection<NodeStatus> cns = state.getNeighbours();
-            // add current position to seen items
-            seen.add(state.getCurrentLocation());
-
-            int distance = Integer.MAX_VALUE;
-            long id = -1L;
-            for (NodeStatus ns : cns) {
-                if (ns.getDistanceToTarget() < distance && !seen.contains(ns.getId())) {
-                    distance = ns.getDistanceToTarget();
-                    id = ns.getId();
-                }
-            }
-            System.out.println("Moving to tile with id: " + id);
-            System.out.println("Moving from position: " + state.getCurrentLocation());
-            state.moveTo(id);
-            System.out.println("\t to: " + state.getCurrentLocation());
-        }
     }
 
     /**
