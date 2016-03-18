@@ -6,6 +6,7 @@ import game.NodeStatus;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -43,7 +44,7 @@ public class Explorer {
      *
      * JD: thoughts on possible algorithms
      * Depth-first (Stack)
-     * Breadth-first (Queue)
+     * Not this as it doesn't work with just one path ->Breadth-first (Queue)
      * Best first (Priority Queue) <- there is on in this project.
      * A* (also uses a Priority Queue)
      * Dijkstra's algorithm
@@ -61,6 +62,7 @@ public class Explorer {
          * int getDistanceToTarget();
          * void moveTo(long id);
          */
+        Set<Long> visited = new HashSet<>();
 
     }
 
