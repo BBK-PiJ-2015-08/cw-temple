@@ -51,6 +51,16 @@ public class Explorer {
      * @param state the information available at the current state
      */
     public void explore(ExplorationState state) {
+        /**
+         * ExplorationState has (implemented in GameState):
+         * long getCurrentLocation - returns position.getId
+         *      position = exploreCavern.getEntrance
+         *      exploreCavern = Cavern.digExploreCavern(ROWS, COLS, rand);
+         *
+         * Collection<NodeStatus> getNeighbours();
+         * int getDistanceToTarget();
+         * void moveTo(long id);
+         */
 
     }
 
