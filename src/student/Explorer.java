@@ -44,8 +44,8 @@ public class Explorer {
      *
      * JD: thoughts on possible algorithms
      * Depth-first (Stack)
-     * Not this as it doesn't work with just one path ->Breadth-first (Queue)
-     * Best first (Priority Queue) <- there is on in this project.
+     * Breadth-first (Queue)
+     * Best first (Priority Queue) <- there is one in this project.
      * A* (also uses a Priority Queue)
      * Dijkstra's algorithm
      *
@@ -62,7 +62,7 @@ public class Explorer {
          * int getDistanceToTarget();
          * void moveTo(long id);
          */
-        Set<Long> visited = new HashSet<>();
+        //Set<Long> visited = new HashSet<>();
 
     }
 
