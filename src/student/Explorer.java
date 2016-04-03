@@ -82,9 +82,6 @@ public class Explorer {
     }
 
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
-        long currentBestDist = Integer.MAX_VALUE;
-        long bestID = -1L;
-        long bestIDX = state.getCurrentLocation();
         long currentLocation = state.getCurrentLocation();
         while (state.getDistanceToTarget() != 0) {
             Collection<NodeStatus> nbs = state.getNeighbours();
@@ -107,20 +104,6 @@ public class Explorer {
                     greedy(state, visited, currentLocation);
                 }
             }
-                /**
-                for (NodeStatus neb : sortedNbs) {
-                    if (neb.getDistanceToTarget() < currentBestDist) {
-                        currentBestDist = neb.getDistanceToTarget();
-                        bestID = neb.getId();
-                    }
-                }
-                if (!visited.contains(nb) && nb.getId() == bestID) {
-                    visited.add(nb);
-                    state.moveTo(bestID);
-                    startLocation = state.getCurrentLocation();
-                    greedy(state, visited, currentLocation);
-                }
-             */
             if (visited.containsAll(nbs)) {
                 state.moveTo(startLocation);
                 //greedy(state, visited, startLocation);
