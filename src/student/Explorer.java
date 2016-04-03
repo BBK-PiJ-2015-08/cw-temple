@@ -106,10 +106,8 @@ public class Explorer {
                 }
             }
             if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
-                for (NodeStatus nb : nbs) {
-                    state.moveTo(nb.getId());
-                    greedy(state, visited, currentLocation);
-                }
+                state.moveTo(startLocation);
+                //greedy(state, visited, currentLocation);
             }
         }
         if (state.getDistanceToTarget() == 0) {
