@@ -105,12 +105,10 @@ public class Explorer {
                     }
                 }
             }
-            if (visited.containsAll(sortedNbs)) {
+            if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
                 for (NodeStatus nb : nbs) {
-                    if (state.getDistanceToTarget() != 0) {
-                        state.moveTo(nb.getId());
-                        greedy(state, visited, startLocation);
-                    }
+                    state.moveTo(nb.getId());
+                    greedy(state, visited, startLocation);
                 }
             }
         }
