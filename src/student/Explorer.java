@@ -113,6 +113,7 @@ public class Explorer {
             if (!visited.contains(nb) && nb.getId() == bestID) {
                 visited.add(nb);
                 state.moveTo(bestID);
+                startLocation = state.getCurrentLocation();
                 greedy(state, visited, currentLocation);
             }
         }
@@ -128,46 +129,6 @@ public class Explorer {
                 greedy(state, visited, startLocation);
             }
         }
-                 /**
-        long currentBest = Integer.MAX_VALUE;
-        long bestID = 0;
-        int distance = Integer.MAX_VALUE;
-        long currentLocation = state.getCurrentLocation();
-        Collection<NodeStatus> nbs = state.getNeighbours();
-        for (NodeStatus nb : nbs) {
-            for (int i = 0; i < nbs.size(); i++) {
-                if (nb.getDistanceToTarget() < currentBest) {
-                    currentBest = nb.getDistanceToTarget();
-                    bestID = nb.getId();
-                }
-            }
-            if (!visited.contains(nb) && nb.getId() == bestID) {
-                visited.add(nb);
-                state.moveTo(nb.getId());
-                if (state.getDistanceToTarget() == 0) {
-                    System.out.println("You have found the orb!");
-                    break;
-                }
-                greedy(state, visited, currentLocation);
-            }
-        }
-        if (visited.containsAll(nbs)) {
-            for (NodeStatus nei : nbs) {
-                for (int i = 0; i < nbs.size(); i++) {
-                    if (nei.getDistanceToTarget() < currentBest) {
-                        currentBest = nei.getDistanceToTarget();
-                        bestID = nei.getId();
-                    }
-                }
-            }
-            state.moveTo(bestID);
-            while (state.getDistanceToTarget() == 0) {
-                System.out.println("You have found the orb!");
-                break;
-            }
-            greedy(state, visited, currentLocation);
-        }
-                 */
     }
 
     /**
