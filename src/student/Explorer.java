@@ -82,6 +82,8 @@ public class Explorer {
     }
 
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
+        long currentBestDist = Integer.MAX_VALUE;
+        long bestID = -1L;
         if (state.getDistanceToTarget() == 0) {
             System.out.println("You have found the orb!");
             return;
@@ -103,7 +105,12 @@ public class Explorer {
             nbs.add(u);
             nbs.remove(u);
         }
-
+        for (NodeStatus nb : nbs) {
+            if (nb.getDistanceToTarget() < currentBestDist) {
+                currentBestDist = nb.getDistanceToTarget();
+                bestID = nb.getId();
+            }
+        }
 
                  /**
         long currentBest = Integer.MAX_VALUE;
