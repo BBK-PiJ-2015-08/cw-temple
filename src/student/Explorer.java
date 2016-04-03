@@ -57,8 +57,7 @@ public class Explorer {
          */
         //getNeighbours is in GameState
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
-        long startLocation = state.getCurrentLocation();
-        greedy(state, visited, startLocation);
+        greedy(state, visited, state.getCurrentLocation());
     }
 
     public void depthFirst (ExplorationState state, List<NodeStatus> visited, long startLocation) {
@@ -104,7 +103,7 @@ public class Explorer {
                     greedy(state, visited, currentLocation);
                 }
             }
-            if (visited.containsAll(nbs)) {
+            if (visited.containsAll(sortedNbs)) {
                 state.moveTo(startLocation);
                 //greedy(state, visited, startLocation);
             }
