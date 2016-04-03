@@ -82,6 +82,30 @@ public class Explorer {
     }
 
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
+        if (state.getDistanceToTarget() == 0) {
+            System.out.println("You have found the orb!");
+            return;
+        }
+        Collection<NodeStatus> nbs = state.getNeighbours();
+        List<NodeStatus> unsorted = new ArrayList<>();
+        for (NodeStatus n : nbs) {
+            unsorted.add(n);
+            nbs.remove(n);
+        }
+        Collections.sort(unsorted, new Comparator<NodeStatus>(){
+            public int compare(NodeStatus o1, NodeStatus o2){
+                if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
+                    return 0;
+                return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
+            }
+        });
+        for (NodeStatus u : unsorted) {
+            nbs.add(u);
+            nbs.remove(u);
+        }
+
+
+                 /**
         long currentBest = Integer.MAX_VALUE;
         long bestID = 0;
         int distance = Integer.MAX_VALUE;
@@ -120,6 +144,7 @@ public class Explorer {
             }
             greedy(state, visited, currentLocation);
         }
+                 */
     }
 
     /**
