@@ -10,7 +10,6 @@ import java.util.*;
  * @author Jade Dickinson BBK-PiJ-2015-08
  */
 public class Explorer {
-
     /**
      * Explore the cavern, trying to find the orb in as few steps as possible.
      * Once you find the orb, you must return from the function in order to pick
@@ -62,22 +61,35 @@ public class Explorer {
     }
 
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
-        int distance = Integer.MAX_VALUE;
+        int distance;
         long currentLocation = state.getCurrentLocation();
-            Collection<NodeStatus> nbs = state.getNeighbours();
+        distance = state.getDistanceToTarget();
+        if (state.getDistanceToTarget() == 0) {
+            System.out.println("You have found the orb!");
+        }
+        Collection<NodeStatus> nbs = state.getNeighbours();
             for (NodeStatus nb : nbs) {
                 if (!visited.contains(nb) && nb.getDistanceToTarget() < distance) {
                     visited.add(nb);
                     state.moveTo(nb.getId());
+                    startLocation = state.getCurrentLocation();
                     if (state.getDistanceToTarget() == 0) {
                         System.out.println("You have found the orb!");
                         break;
                     }
                     greedy(state, visited, currentLocation);
                 }
+                else {
+                    break;
+                }
             }
             if (visited.containsAll(nbs)) {
-                state.moveTo(startLocation);
+                state.moveTo(currentLocation);
+                currentLocation = state.getCurrentLocation();
+                while (state.getDistanceToTarget() == 0) {
+                    System.out.println("You found the orb!");
+                    break;
+                }
             }
     }
 
