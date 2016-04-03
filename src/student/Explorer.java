@@ -5,9 +5,7 @@ import game.ExplorationState;
 import game.NodeStatus;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author Jade Dickinson BBK-PiJ-2015-08
@@ -57,13 +55,26 @@ public class Explorer {
          * long getCurrentLocation - returns position.getId
          *      position = exploreCavern.getEntrance
          *      exploreCavern = Cavern.digExploreCavern(ROWS, COLS, rand);
-         *
-         * Collection<NodeStatus> getNeighbours();
-         * int getDistanceToTarget();
-         * void moveTo(long id);
          */
-        //Set<Long> visited = new HashSet<>();
+        //getNeighbours is in GameState
+        Stack<Long> visited = new Stack<>();
+        visited.push(state.getCurrentLocation());
+        int distance = Integer.MAX_VALUE;
+        long nextID = -1L;
+        while (state.getDistanceToTarget() != 0) {
+            Collection<NodeStatus> nbs = state.getNeighbours();
+            for (NodeStatus nb : nbs) {
+                if (!visited.contains(nb)) {
+                    if (nb.getDistanceToTarget() < distance) {
+                        nextID = nb.getId();
+                        distance = state.getDistanceToTarget();
+                    }
 
+                }
+            }
+            state.moveTo(nextID);
+        }
+        System.out.println("You have reached the orb!");
     }
 
     /**
@@ -92,4 +103,6 @@ public class Explorer {
     public void escape(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
     }
+
+
 }
