@@ -105,12 +105,15 @@ public class Explorer {
             }
         });
         // Below likely comodification too
+        Collection<NodeStatus> sortedNbs = unsorted;
+        /**
         for (NodeStatus u : unsorted) {
             nbs.add(u);
             //nbs.remove(u);
         }
-        for (NodeStatus nb : nbs) {
-            for (NodeStatus neb : nbs) {
+         */
+        for (NodeStatus nb : sortedNbs) {
+            for (NodeStatus neb : sortedNbs) {
                 if (neb.getDistanceToTarget() < currentBestDist) {
                     currentBestDist = neb.getDistanceToTarget();
                     bestID = neb.getId();
@@ -122,15 +125,17 @@ public class Explorer {
                 greedy(state, visited, currentLocation);
             }
         }
-        if (visited.containsAll(nbs)) {
-            for (NodeStatus nei : nbs) {
-                if (nei.getDistanceToTarget() < currentBestDist) {
-                    currentBestDist = nei.getDistanceToTarget();
-                    bestIDX = nei.getId();
+        for (NodeStatus nb : sortedNbs) {
+            for (NodeStatus neb : sortedNbs) {
+                if (neb.getDistanceToTarget() < currentBestDist) {
+                    currentBestDist = neb.getDistanceToTarget();
+                    bestIDX = neb.getId();
                 }
             }
-            state.moveTo(bestIDX);
-            greedy(state, visited, startLocation);
+            if (nb.getId() == bestIDX) {
+                state.moveTo(bestIDX);
+                greedy(state, visited, startLocation);
+            }
         }
                  /**
         long currentBest = Integer.MAX_VALUE;
