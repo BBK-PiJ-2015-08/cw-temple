@@ -91,6 +91,7 @@ public class Explorer {
         }
         Collection<NodeStatus> nbs = state.getNeighbours();
         List<NodeStatus> unsorted = new ArrayList<>();
+        // Causing ConcurrentModificationException
         for (NodeStatus n : nbs) {
             unsorted.add(n);
             nbs.remove(n);
@@ -102,6 +103,7 @@ public class Explorer {
                 return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
             }
         });
+        // Below likely comodification too
         for (NodeStatus u : unsorted) {
             nbs.add(u);
             nbs.remove(u);
