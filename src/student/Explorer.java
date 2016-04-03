@@ -99,16 +99,16 @@ public class Explorer {
             for (NodeStatus nb : sortedNbs) {
                 if (!visited.contains(nb)) {
                     visited.add(nb);
-                    state.moveTo(nb.getId());
                     if (state.getDistanceToTarget() != 0) {
+                        state.moveTo(nb.getId());
                         greedy(state, visited, currentLocation);
                     }
                 }
             }
             if (visited.containsAll(sortedNbs)) {
                 for (NodeStatus nb : nbs) {
-                    state.moveTo(nb.getId());
                     if (state.getDistanceToTarget() != 0) {
+                        state.moveTo(nb.getId());
                         greedy(state, visited, startLocation);
                     }
                 }
