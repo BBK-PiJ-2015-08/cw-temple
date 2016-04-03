@@ -106,12 +106,18 @@ public class Explorer {
             nbs.remove(u);
         }
         for (NodeStatus nb : nbs) {
-            if (nb.getDistanceToTarget() < currentBestDist) {
-                currentBestDist = nb.getDistanceToTarget();
-                bestID = nb.getId();
+            for (NodeStatus neb : nbs) {
+                if (nb.getDistanceToTarget() < currentBestDist) {
+                    currentBestDist = nb.getDistanceToTarget();
+                    bestID = nb.getId();
+                }
+            }
+            if (!visited.contains(nb) && nb.getId() == bestID) {
+                visited.add(nb);
+                state.moveTo(bestID);
+
             }
         }
-
                  /**
         long currentBest = Integer.MAX_VALUE;
         long bestID = 0;
