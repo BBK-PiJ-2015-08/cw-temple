@@ -100,13 +100,17 @@ public class Explorer {
                 if (!visited.contains(nb)) {
                     visited.add(nb);
                     state.moveTo(nb.getId());
-                    greedy(state, visited, currentLocation);
+                    if (state.getDistanceToTarget() != 0) {
+                        greedy(state, visited, currentLocation);
+                    }
                 }
             }
             if (visited.containsAll(sortedNbs)) {
                 for (NodeStatus nb : nbs) {
                     state.moveTo(nb.getId());
-                    greedy(state, visited, startLocation);
+                    if (state.getDistanceToTarget() != 0) {
+                        greedy(state, visited, startLocation);
+                    }
                 }
             }
         }
