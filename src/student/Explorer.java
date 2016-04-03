@@ -114,8 +114,10 @@ public class Explorer {
                     greedy(state, visited, currentLocation);
                 }
             }
-            state.moveTo(startLocation);
-            greedy(state, visited, startLocation);
+            if (visited.containsAll(nbs)) {
+                state.moveTo(currentLocation);
+                //greedy(state, visited, startLocation);
+            }
         }
         System.out.println("You have found the orb!");
     }
