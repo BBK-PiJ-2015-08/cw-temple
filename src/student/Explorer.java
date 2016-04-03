@@ -86,49 +86,38 @@ public class Explorer {
         long bestID = -1L;
         long bestIDX = state.getCurrentLocation();
         long currentLocation = state.getCurrentLocation();
-        while (state.getDistanceToTarget() == 0) {
-            System.out.println("You have found the orb!");
-            break;
-        }
-        Collection<NodeStatus> nbs = state.getNeighbours();
-        List<NodeStatus> unsorted = new ArrayList<>();
-        for (NodeStatus n : nbs) {
-            unsorted.add(n);
-        }
-        Collections.sort(unsorted, new Comparator<NodeStatus>(){
-            public int compare(NodeStatus o1, NodeStatus o2){
-                if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
-                    return 0;
-                return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
+        while (state.getDistanceToTarget() != 0) {
+            Collection<NodeStatus> nbs = state.getNeighbours();
+            List<NodeStatus> unsorted = new ArrayList<>();
+            for (NodeStatus n : nbs) {
+                unsorted.add(n);
             }
-        });
-        Collection<NodeStatus> sortedNbs = unsorted;
-        for (NodeStatus nb : sortedNbs) {
-            for (NodeStatus neb : sortedNbs) {
-                if (neb.getDistanceToTarget() < currentBestDist) {
-                    currentBestDist = neb.getDistanceToTarget();
-                    bestID = neb.getId();
+            Collections.sort(unsorted, new Comparator<NodeStatus>(){
+                public int compare(NodeStatus o1, NodeStatus o2){
+                    if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
+                        return 0;
+                    return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
+                }
+            });
+            Collection<NodeStatus> sortedNbs = unsorted;
+            for (NodeStatus nb : sortedNbs) {
+                for (NodeStatus neb : sortedNbs) {
+                    if (neb.getDistanceToTarget() < currentBestDist) {
+                        currentBestDist = neb.getDistanceToTarget();
+                        bestID = neb.getId();
+                    }
+                }
+                if (!visited.contains(nb) && nb.getId() == bestID) {
+                    visited.add(nb);
+                    state.moveTo(bestID);
+                    startLocation = state.getCurrentLocation();
+                    greedy(state, visited, currentLocation);
                 }
             }
-            if (!visited.contains(nb) && nb.getId() == bestID) {
-                visited.add(nb);
-                state.moveTo(bestID);
-                startLocation = state.getCurrentLocation();
-                greedy(state, visited, currentLocation);
-            }
+            state.moveTo(startLocation);
+            greedy(state, visited, startLocation);
         }
-        for (NodeStatus nb : sortedNbs) {
-            for (NodeStatus neb : sortedNbs) {
-                if (neb.getDistanceToTarget() < currentBestDist) {
-                    currentBestDist = neb.getDistanceToTarget();
-                    bestIDX = neb.getId();
-                }
-            }
-            if (nb.getId() == bestIDX) {
-                state.moveTo(bestIDX);
-                greedy(state, visited, startLocation);
-            }
-        }
+        System.out.println("You have found the orb!");
     }
 
     /**
