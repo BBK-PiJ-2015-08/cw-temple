@@ -57,6 +57,10 @@ public class Explorer {
          */
         //getNeighbours is in GameState
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
+        depthfirst(state, visited);
+    }
+
+    public void depthfirst(ExplorationState state, List<NodeStatus> visited) {
         int distance = Integer.MAX_VALUE;
         while (state.getDistanceToTarget() != 0) {
             Collection<NodeStatus> nbs = state.getNeighbours();
@@ -64,10 +68,11 @@ public class Explorer {
                 if (!visited.contains(nb) && nb.getDistanceToTarget() < distance) {
                     visited.add(nb);
                     state.moveTo(nb.getId());
-                    explore(state);
+                    depthfirst(state, visited);
                 }
             }
         }
+        System.out.println("You have found the orb!");
     }
 
     /**
