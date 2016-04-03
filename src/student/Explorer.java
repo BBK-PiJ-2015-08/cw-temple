@@ -57,40 +57,27 @@ public class Explorer {
         //getNeighbours is in GameState
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
         long startLocation = state.getCurrentLocation();
-        greedy(state, visited, startLocation);
+        depthFirst(state, visited, startLocation);
     }
 
-    public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
-        int distance;
+    public void depthFirst (ExplorationState state, List<NodeStatus> visited, long startLocation) {
+        int distance = Integer.MAX_VALUE;
         long currentLocation = state.getCurrentLocation();
-        distance = state.getDistanceToTarget();
-        if (state.getDistanceToTarget() == 0) {
-            System.out.println("You have found the orb!");
-        }
         Collection<NodeStatus> nbs = state.getNeighbours();
-            for (NodeStatus nb : nbs) {
-                if (!visited.contains(nb) && nb.getDistanceToTarget() < distance) {
-                    visited.add(nb);
-                    state.moveTo(nb.getId());
-                    startLocation = state.getCurrentLocation();
-                    if (state.getDistanceToTarget() == 0) {
-                        System.out.println("You have found the orb!");
-                        break;
-                    }
-                    greedy(state, visited, currentLocation);
-                }
-                else {
+        for (NodeStatus nb : nbs) {
+            if (!visited.contains(nb)) {
+                visited.add(nb);
+                state.moveTo(nb.getId());
+                if (state.getDistanceToTarget() == 0) {
+                    System.out.println("You have found the orb!");
                     break;
                 }
+                depthFirst(state, visited, currentLocation);
             }
-            if (visited.containsAll(nbs)) {
-                state.moveTo(currentLocation);
-                currentLocation = state.getCurrentLocation();
-                while (state.getDistanceToTarget() == 0) {
-                    System.out.println("You found the orb!");
-                    break;
-                }
-            }
+        }
+        if (visited.containsAll(nbs)) {
+            state.moveTo(startLocation);
+        }
     }
 
     /**
