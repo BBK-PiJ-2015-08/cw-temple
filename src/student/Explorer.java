@@ -101,6 +101,13 @@ public class Explorer {
             });
             Collection<NodeStatus> sortedNbs = unsorted;
             for (NodeStatus nb : sortedNbs) {
+                if (!visited.contains(nb)) {
+                    visited.add(nb);
+                    state.moveTo(nb.getId());
+                    greedy(state, visited, currentLocation);
+                }
+            }
+                /**
                 for (NodeStatus neb : sortedNbs) {
                     if (neb.getDistanceToTarget() < currentBestDist) {
                         currentBestDist = neb.getDistanceToTarget();
@@ -113,9 +120,9 @@ public class Explorer {
                     startLocation = state.getCurrentLocation();
                     greedy(state, visited, currentLocation);
                 }
-            }
+             */
             if (visited.containsAll(nbs)) {
-                state.moveTo(currentLocation);
+                state.moveTo(startLocation);
                 //greedy(state, visited, startLocation);
             }
         }
