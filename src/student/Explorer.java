@@ -4,8 +4,7 @@ import game.EscapeState;
 import game.ExplorationState;
 import game.NodeStatus;
 
-import java.util.Collection;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author Jade Dickinson BBK-PiJ-2015-08
@@ -57,24 +56,18 @@ public class Explorer {
          *      exploreCavern = Cavern.digExploreCavern(ROWS, COLS, rand);
          */
         //getNeighbours is in GameState
-        Stack<Long> visited = new Stack<>();
-        visited.push(state.getCurrentLocation());
+        List<NodeStatus> visited = new ArrayList<NodeStatus>();
         int distance = Integer.MAX_VALUE;
-        long nextID = -1L;
         while (state.getDistanceToTarget() != 0) {
             Collection<NodeStatus> nbs = state.getNeighbours();
             for (NodeStatus nb : nbs) {
-                if (!visited.contains(nb)) {
-                    if (nb.getDistanceToTarget() < distance) {
-                        nextID = nb.getId();
-                    }
-
+                if (!visited.contains(nb) && nb.getDistanceToTarget() < distance) {
+                    visited.add(nb);
+                    state.moveTo(nb.getId());
+                    explore(state);
                 }
             }
-            state.moveTo(nextID);
-            distance = state.getDistanceToTarget();
         }
-        System.out.println("You have reached the orb!");
     }
 
     /**
