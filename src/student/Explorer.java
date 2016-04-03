@@ -86,16 +86,14 @@ public class Explorer {
         long bestID = -1L;
         long bestIDX = state.getCurrentLocation();
         long currentLocation = state.getCurrentLocation();
-        if (state.getDistanceToTarget() == 0) {
+        while (state.getDistanceToTarget() == 0) {
             System.out.println("You have found the orb!");
-            return;
+            break;
         }
         Collection<NodeStatus> nbs = state.getNeighbours();
         List<NodeStatus> unsorted = new ArrayList<>();
-        // Causing ConcurrentModificationException
         for (NodeStatus n : nbs) {
             unsorted.add(n);
-            //nbs.remove(n);
         }
         Collections.sort(unsorted, new Comparator<NodeStatus>(){
             public int compare(NodeStatus o1, NodeStatus o2){
@@ -104,14 +102,7 @@ public class Explorer {
                 return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
             }
         });
-        // Below likely comodification too
         Collection<NodeStatus> sortedNbs = unsorted;
-        /**
-        for (NodeStatus u : unsorted) {
-            nbs.add(u);
-            //nbs.remove(u);
-        }
-         */
         for (NodeStatus nb : sortedNbs) {
             for (NodeStatus neb : sortedNbs) {
                 if (neb.getDistanceToTarget() < currentBestDist) {
