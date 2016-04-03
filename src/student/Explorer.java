@@ -108,7 +108,7 @@ public class Explorer {
             if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
                 for (NodeStatus nb : nbs) {
                     state.moveTo(nb.getId());
-                    //greedy(state, visited, currentLocation);
+                    greedy(state, visited, currentLocation);
                 }
             }
         }
