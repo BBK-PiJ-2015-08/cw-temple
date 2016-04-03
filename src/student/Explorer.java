@@ -67,12 +67,12 @@ public class Explorer {
                 if (!visited.contains(nb)) {
                     if (nb.getDistanceToTarget() < distance) {
                         nextID = nb.getId();
-                        distance = state.getDistanceToTarget();
                     }
 
                 }
             }
             state.moveTo(nextID);
+            distance = state.getDistanceToTarget();
         }
         System.out.println("You have reached the orb!");
     }
