@@ -106,9 +106,8 @@ public class Explorer {
             if (visited.containsAll(sortedNbs)) {
                 for (NodeStatus nb : nbs) {
                     state.moveTo(nb.getId());
+                    greedy(state, visited, startLocation);
                 }
-                //state.moveTo(startLocation);
-                //greedy(state, visited, startLocation);
             }
         }
         System.out.println("You have found the orb!");
