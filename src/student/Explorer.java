@@ -107,7 +107,7 @@ public class Explorer {
             }
             if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
                 state.moveTo(startLocation);
-                greedy(state, visited, currentLocation);
+                greedy(state, visited, startLocation);
             }
         }
         if (state.getDistanceToTarget() == 0) {
