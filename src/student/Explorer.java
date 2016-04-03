@@ -84,6 +84,7 @@ public class Explorer {
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
         long currentBestDist = Integer.MAX_VALUE;
         long bestID = -1L;
+        long bestIDX = state.getCurrentLocation();
         long currentLocation = state.getCurrentLocation();
         if (state.getDistanceToTarget() == 0) {
             System.out.println("You have found the orb!");
@@ -94,7 +95,7 @@ public class Explorer {
         // Causing ConcurrentModificationException
         for (NodeStatus n : nbs) {
             unsorted.add(n);
-            nbs.remove(n);
+            //nbs.remove(n);
         }
         Collections.sort(unsorted, new Comparator<NodeStatus>(){
             public int compare(NodeStatus o1, NodeStatus o2){
@@ -106,7 +107,7 @@ public class Explorer {
         // Below likely comodification too
         for (NodeStatus u : unsorted) {
             nbs.add(u);
-            nbs.remove(u);
+            //nbs.remove(u);
         }
         for (NodeStatus nb : nbs) {
             for (NodeStatus neb : nbs) {
@@ -125,11 +126,11 @@ public class Explorer {
             for (NodeStatus nei : nbs) {
                 if (nei.getDistanceToTarget() < currentBestDist) {
                     currentBestDist = nei.getDistanceToTarget();
-                    bestID = nei.getId();
+                    bestIDX = nei.getId();
                 }
             }
-            state.moveTo(bestID);
-            greedy(state, visited, currentLocation);
+            state.moveTo(bestIDX);
+            greedy(state, visited, startLocation);
         }
                  /**
         long currentBest = Integer.MAX_VALUE;
