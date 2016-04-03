@@ -104,7 +104,10 @@ public class Explorer {
                 }
             }
             if (visited.containsAll(sortedNbs)) {
-                state.moveTo(startLocation);
+                for (NodeStatus nb : nbs) {
+                    state.moveTo(nb.getId());
+                }
+                //state.moveTo(startLocation);
                 //greedy(state, visited, startLocation);
             }
         }
