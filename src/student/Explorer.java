@@ -108,11 +108,13 @@ public class Explorer {
             if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
                 for (NodeStatus nb : nbs) {
                     state.moveTo(nb.getId());
-                    greedy(state, visited, startLocation);
+                    greedy(state, visited, currentLocation);
                 }
             }
         }
-        System.out.println("You have found the orb!");
+        if (state.getDistanceToTarget() == 0) {
+            System.out.println("You have found the orb!");
+        }
     }
 
     /**
