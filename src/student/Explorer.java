@@ -64,7 +64,6 @@ public class Explorer {
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
         int distance = Integer.MAX_VALUE;
         long currentLocation = state.getCurrentLocation();
-        //while (state.getDistanceToTarget() != 0) {
             Collection<NodeStatus> nbs = state.getNeighbours();
             for (NodeStatus nb : nbs) {
                 if (!visited.contains(nb) && nb.getDistanceToTarget() < distance) {
@@ -80,7 +79,6 @@ public class Explorer {
             if (visited.containsAll(nbs)) {
                 state.moveTo(startLocation);
             }
-        //}
     }
 
     /**
