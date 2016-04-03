@@ -101,6 +101,8 @@ public class Explorer {
                     visited.add(nb);
                     if (state.getDistanceToTarget() != 0) {
                         state.moveTo(nb.getId());
+                        //Once in every few times, below line causes "Node must
+                        // be adjacent to position" error.
                         greedy(state, visited, currentLocation);
                     }
                 }
