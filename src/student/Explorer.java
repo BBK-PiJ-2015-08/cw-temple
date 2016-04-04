@@ -136,8 +136,9 @@ public class Explorer {
      *
      * Thoughts on possibilities:
      * Dijkstra's algorithm (also uses a Priority Queue)
-     * A* (also uses a Priority Queue) <- extension of Dijkstra's which uses
-     * heuristics to guide search.
+     * A* ("") <- extension of Dijkstra's which uses heuristics to guide search.
+     * Going to start with this instead of best-first based on
+     * http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html
      * Best first (Priority Queue) <- there is one in this project.
      *
      * @param state the information available at the current state
