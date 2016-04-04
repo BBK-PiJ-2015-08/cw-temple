@@ -34,7 +34,8 @@ public class Explorer {
      * You know you are standing on the orb when getDistanceToTarget() is 0.
      *
      * Use function moveTo(long id) in ExplorationState to move to a neighboring
-     * tile by its ID. Doing this will change state to reflect your new position.
+     * tile by its ID. Doing this will change state to reflect your new
+     * position.
      *
      * A suggested first implementation that will always find the orb, but
      * likely won't receive a large bonus multiplier, is a depth-first search.
@@ -108,25 +109,36 @@ public class Explorer {
     }
 
     /**
-     * Escape from the cavern before the ceiling collapses, trying to collect as much
-     * gold as possible along the way. Your solution must ALWAYS escape before time runs
-     * out, and this should be prioritized above collecting gold.
-     * <p>
-     * You now have access to the entire underlying graph, which can be accessed through EscapeState.
-     * getCurrentNode() and getExit() will return you Node objects of interest, and getVertices()
-     * will return a collection of all nodes on the graph.
-     * <p>
-     * Note that time is measured entirely in the number of steps taken, and for each step
-     * the time remaining is decremented by the weight of the edge taken. You can use
-     * getTimeRemaining() to get the time still remaining, pickUpGold() to pick up any gold
-     * on your current tile (this will fail if no such gold exists), and moveTo() to move
-     * to a destination node adjacent to your current node.
-     * <p>
-     * You must return from this function while standing at the exit. Failing to do so before time
-     * runs out or returning from the wrong location will be considered a failed run.
-     * <p>
-     * You will always have enough time to escape using the shortest path from the starting
-     * position to the exit, although this will not collect much gold.
+     * Escape from the cavern before the ceiling collapses, trying to collect
+     * as much gold as possible along the way. Your solution must ALWAYS escape
+     * before time runs out, and this should be prioritized above collecting
+     * gold.
+     *
+     * You now have access to the entire underlying graph, which can be accessed
+     * through EscapeState. getCurrentNode() and getExit() will return you Node
+     * objects of interest, and getVertices() will return a collection of all
+     * nodes on the graph.
+     *
+     * Note that time is measured entirely in the number of steps taken, and for
+     * each step the time remaining is decremented by the weight of the edge
+     * taken. You can use getTimeRemaining() to get the time still remaining,
+     * pickUpGold() to pick up any gold on your current tile (this will fail if
+     * no such gold exists), and moveTo() to move to a destination node adjacent
+     * to your current node.
+     *
+     * You must return from this function while standing at the exit. Failing to
+     * do so before time runs out or returning from the wrong location will be
+     * considered a failed run.
+     *
+     * You will always have enough time to escape using the shortest path from
+     * the starting position to the exit, although this will not collect much
+     * gold.
+     *
+     * Thoughts on possibilities:
+     * Dijkstra's algorithm (also uses a Priority Queue)
+     * A* (also uses a Priority Queue) <- extension of Dijkstra's which uses
+     * heuristics to guide search.
+     * Best first (Priority Queue) <- there is one in this project.
      *
      * @param state the information available at the current state
      */
