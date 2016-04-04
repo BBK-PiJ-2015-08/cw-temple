@@ -83,38 +83,34 @@ public class Explorer {
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
         if (state.getDistanceToTarget() == 0) {
             System.out.println("You have found the orb!");
+            return;
         }
         long currentLocation = state.getCurrentLocation();
-        //while (state.getDistanceToTarget() != 0) {
-            Collection<NodeStatus> nbs = state.getNeighbours();
-            List<NodeStatus> unsorted = new ArrayList<>();
-            for (NodeStatus n : nbs) {
-                unsorted.add(n);
+        Collection<NodeStatus> nbs = state.getNeighbours();
+        List<NodeStatus> unsorted = new ArrayList<>();
+        for (NodeStatus n : nbs) {
+            unsorted.add(n);
+        }
+        Collections.sort(unsorted, new Comparator<NodeStatus>(){
+            public int compare(NodeStatus o1, NodeStatus o2){
+                if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
+                    return 0;
+                return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
             }
-            Collections.sort(unsorted, new Comparator<NodeStatus>(){
-                public int compare(NodeStatus o1, NodeStatus o2){
-                    if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
-                        return 0;
-                    return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
-                }
-            });
-            Collection<NodeStatus> sortedNbs = unsorted;
-            for (NodeStatus nb : sortedNbs) {
-                if (!visited.contains(nb)) {
-                    visited.add(nb);
-                    if (state.getDistanceToTarget() != 0) {
-                        state.moveTo(nb.getId());
-                        //Once in every few times, below line causes "Node must
-                        // be adjacent to position" error.
-                        greedy(state, visited, currentLocation);
-                    }
+        });
+        Collection<NodeStatus> sortedNbs = unsorted;
+        for (NodeStatus nb : sortedNbs) {
+            if (!visited.contains(nb)) {
+                visited.add(nb);
+                if (state.getDistanceToTarget() != 0) {
+                    state.moveTo(nb.getId());
+                    greedy(state, visited, currentLocation);
                 }
             }
-            if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
-                state.moveTo(startLocation);
-                //greedy(state, visited, startLocation);
-            }
-        //}
+        }
+        if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
+            state.moveTo(startLocation);
+        }
     }
 
     /**
