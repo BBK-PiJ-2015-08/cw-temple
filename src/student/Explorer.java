@@ -81,8 +81,11 @@ public class Explorer {
     }
 
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
+        if (state.getDistanceToTarget() == 0) {
+            System.out.println("You have found the orb!");
+        }
         long currentLocation = state.getCurrentLocation();
-        while (state.getDistanceToTarget() != 0) {
+        //while (state.getDistanceToTarget() != 0) {
             Collection<NodeStatus> nbs = state.getNeighbours();
             List<NodeStatus> unsorted = new ArrayList<>();
             for (NodeStatus n : nbs) {
@@ -109,12 +112,9 @@ public class Explorer {
             }
             if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
                 state.moveTo(startLocation);
-                greedy(state, visited, startLocation);
+                //greedy(state, visited, startLocation);
             }
-        }
-        if (state.getDistanceToTarget() == 0) {
-            System.out.println("You have found the orb!");
-        }
+        //}
     }
 
     /**
