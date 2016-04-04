@@ -44,18 +44,11 @@ public class Explorer {
      * Breadth-first (Queue)
      * Best first (Priority Queue) <- there is one in this project.
      * A* (also uses a Priority Queue)
-     * Dijkstra's algorithm
+     * Dijkstra's algorithm (also uses a Priority Queue)
      *
      * @param state the information available at the current state
      */
     public void explore(ExplorationState state) {
-        /**
-         * ExplorationState has (implemented in GameState):
-         * long getCurrentLocation - returns position.getId
-         *      position = exploreCavern.getEntrance
-         *      exploreCavern = Cavern.digExploreCavern(ROWS, COLS, rand);
-         */
-        //getNeighbours is in GameState
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
         greedy(state, visited, state.getCurrentLocation());
     }
@@ -139,6 +132,7 @@ public class Explorer {
      */
     public void escape(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
+
     }
 
 
