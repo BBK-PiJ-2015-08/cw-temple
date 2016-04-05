@@ -169,6 +169,12 @@ public class Explorer {
          * There is a method pickUpGold, but states you must first check if
          * there is gold. Need to find how to do this.
          * getTimeRemaining seems pretty key also
+         *
+         * Tile.java
+         * Public method getOriginalGold() returns the original amount of gold
+         * on this tile - so want to avoid already visited tiles as using
+         * pickUpGold on a tile that we've taken all the gold from would throw
+         * an IllegalStateException.
          */
         //Nodes that have been searched through
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
