@@ -164,10 +164,21 @@ public class Explorer {
          *
          * GameState
          * getExit
+         *
+         * EscapeState
+         * There is a method pickUpGold, but states you must first check if
+         * there is gold. Need to find how to do this.
+         * getTimeRemaining seems pretty key also
          */
+        //Nodes that have been searched through
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+        //Nodes that have not been fully searched
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
-        //state.getCurrentNode()
+        openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
+        Collection<Node> theMap = state.getVertices();
+        while (!openList.isEmpty()) {
+            openList.poll();
+        }
     }
 
 
