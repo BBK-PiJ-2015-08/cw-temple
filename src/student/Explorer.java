@@ -163,7 +163,12 @@ public class Explorer {
          * this cavern (no path).
          *
          * GameState
+         * getCurrentNode
          * getExit
+         * getVertices
+         * moveTo(Node n)
+         * pickUpGold
+         * getTimeRemaining
          *
          * EscapeState
          * There is a method pickUpGold, but states you must first check if
@@ -175,6 +180,8 @@ public class Explorer {
          * on this tile - so want to avoid already visited tiles as using
          * pickUpGold on a tile that we've taken all the gold from would throw
          * an IllegalStateException.
+         * isOpen()
+         *
          */
         //Nodes that have been searched through
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
