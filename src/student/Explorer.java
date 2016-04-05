@@ -149,7 +149,25 @@ public class Explorer {
      */
     public void escape(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
-
+        /**
+         * useful:
+         * Cavern
+         * getRowCount()
+         * getColumnCount()
+         * getGraph > getVertices line 296 GameState
+         * getTarget
+         * getTileAt
+         * getNodeAt > line 150 in GameState
+         * (private) minPathLengthToTarget: implementation of Dijkstra's algorithm that returns
+         * only the minimum distance between the given node and the target node for
+         * this cavern (no path).
+         *
+         * GameState
+         * getExit
+         */
+        PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+        PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
+        //state.getCurrentNode()
     }
 
 
