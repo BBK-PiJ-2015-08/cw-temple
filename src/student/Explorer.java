@@ -197,7 +197,7 @@ public class Explorer {
                 System.out.println("You have reached the exit!");
                 break;
             }
-            // Node - public methods
+            // Node - public methods:
             // long getID()
             // Edge getEdge(Node q)
             // Set<Edge> getExits()
@@ -205,8 +205,18 @@ public class Explorer {
             // Tile getTile()
             // boolean equals(Object ob)
             // int hashCode
-            Collection<Node> test = exitNode.getNeighbours();
+            Collection<Node> neighbours = exitNode.getNeighbours();
+            for (Node n : neighbours) {
+                if (n.equals(exitNode)) {
+                    
+                }
 
+            }
+
+
+
+            //not sure what double p should be in following line (have put 0):
+            closedList.add(currentNode, 0);
         }
     }
 
