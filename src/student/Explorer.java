@@ -190,14 +190,15 @@ public class Explorer {
         openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
 
         //Collection<Node> theMap = state.getVertices();
-
         while (!openList.isEmpty()) {
             Node currentNode = openList.poll();
             Node exitNode = state.getExit();
             if (currentNode.equals(exitNode)) {
+                System.out.println("You have reached the exit!");
                 break;
             }
-            
+            Collection<Node> test = exitNode.getNeighbours();
+            //closedList.add();
         }
     }
 
