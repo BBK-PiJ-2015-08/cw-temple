@@ -188,10 +188,13 @@ public class Explorer {
         //Nodes that have not been fully searched
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
-        Collection<Node> theMap = state.getVertices();
+
+        //Collection<Node> theMap = state.getVertices();
+
         while (!openList.isEmpty()) {
             Node currentNode = openList.poll();
-            if (currentNode.equals(state.getExit())) {
+            Node exitNode = state.getExit();
+            if (currentNode.equals(exitNode)) {
                 break;
             }
             
