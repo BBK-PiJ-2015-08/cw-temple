@@ -197,8 +197,16 @@ public class Explorer {
                 System.out.println("You have reached the exit!");
                 break;
             }
+            // Node - public methods
+            // long getID()
+            // Edge getEdge(Node q)
+            // Set<Edge> getExits()
+            // Set<Node> getNeighbours()
+            // Tile getTile()
+            // boolean equals(Object ob)
+            // int hashCode
             Collection<Node> test = exitNode.getNeighbours();
-            //closedList.add();
+
         }
     }
 
