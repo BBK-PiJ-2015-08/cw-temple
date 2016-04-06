@@ -182,6 +182,18 @@ public class Explorer {
          * an IllegalStateException.
          * isOpen()
          *
+         * Checking for gold/pizza
+         * getVertices to get the entire graph
+         * for each node getTile
+         * for the tile getGold to get amount of gold
+         * sort nodes by gold amount
+         *
+         * While time remains above a certain value
+         * Do a* for each goal in turn
+         *
+         * When time's depleted to a dangerous level
+         * Do a* to exit
+         *
          */
         //Nodes that have been searched through
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
@@ -208,7 +220,7 @@ public class Explorer {
             Collection<Node> neighbours = exitNode.getNeighbours();
             for (Node n : neighbours) {
                 if (n.equals(exitNode)) {
-                    
+
                 }
 
             }
