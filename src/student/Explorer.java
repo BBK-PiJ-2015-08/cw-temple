@@ -201,9 +201,11 @@ public class Explorer {
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
 
+        Node startNode = state.getCurrentNode();
+        Node exitNode = state.getExit();
         while (!openList.isEmpty()) {
             Node currentNode = openList.poll();
-            Node exitNode = state.getExit();
+
             if (currentNode.equals(exitNode)) {
                 System.out.println("You have reached the exit!");
                 return;
