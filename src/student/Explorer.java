@@ -201,13 +201,12 @@ public class Explorer {
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
 
-        //Collection<Node> theMap = state.getVertices();
         while (!openList.isEmpty()) {
             Node currentNode = openList.poll();
             Node exitNode = state.getExit();
             if (currentNode.equals(exitNode)) {
                 System.out.println("You have reached the exit!");
-                break;
+                return;
             }
             // Node - public methods:
             // long getID()
@@ -222,10 +221,12 @@ public class Explorer {
                 if (n.equals(exitNode)) {
 
                 }
+                // Cost, f, of a node given by f = g + h
+                // g = cost from start to node (number of tiles moved so far)
+                // h = heuristic estimating cheapest path to goal
+
 
             }
-
-
 
             //not sure what double p should be in following line (have put 0):
             closedList.add(currentNode, 0);
