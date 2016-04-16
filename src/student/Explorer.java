@@ -211,6 +211,12 @@ public class Explorer {
         //TODO: Escape from the cavern before time runs out
         System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
         //Number of steps remaining varies wildly at start of escape phase.
+        /**
+         * timeRemaining based on computeTimeToEscape, from
+         * escapeCavern.minPathLengthToTarget(position), that method is a
+         * package-private implementation to Dijkstra's algorithm returning the
+         * minimum distance between the current node and the target node (exit).
+         */
     }
 
 
