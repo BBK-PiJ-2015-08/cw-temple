@@ -188,9 +188,12 @@ public class Explorer {
         Integer bestDistFromStart = Integer.MAX_VALUE;
 
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+        HashMap<Node, totalCost> totalCostInfo = new HashMap<Node, totalCost>();
+
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> reversedClosedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
+        totalCostInfo.put(startNode, new totalCost());
         bestDistFromStart = 0;
         //Using int for sourceBestDistCopy so if it's modified inside a loop,
         //it's not modified outside.
@@ -199,9 +202,11 @@ public class Explorer {
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
             Node currentNode = openList.peek();
+            totalCost currentCost = totalCostInfo.get(currentNode);
+
             if (currentNode.equals(exitNode)) {
-                System.out.println("You have escaped!");
-                return;
+                System.out.println("You have found where the exit is!");
+                //return;
             }
             /**
             //Concerned the priority queue is actually able to handle sorting by
@@ -212,10 +217,12 @@ public class Explorer {
             }
             */
             Collection<Node> escapeNbs = currentNode.getNeighbours();
+            /**
             List<Node> willBeSorted = new ArrayList<>();
             for (Node e : escapeNbs) {
                 willBeSorted.add(e);
             }
+
             Collections.sort(willBeSorted, new Comparator<Node>(){
                 public int compare(Node o1, Node o2){
                     if(getDistanceToNeighbour(currentNode, o1) == getDistanceToNeighbour(currentNode, o2))
@@ -223,7 +230,8 @@ public class Explorer {
                     return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
                 }
             });
-            for (Node w : willBeSorted) {
+            */
+            for (Node w : escapeNbs) {
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
@@ -247,9 +255,11 @@ public class Explorer {
         }
         //skip first node as we're already there
         //reversedClosedList.poll();
+        /**
         while(!reversedClosedList.isEmpty()) {
             state.moveTo(reversedClosedList.poll());
         }
+         */
         //NB private goldPickedUp is false if gold hasn't been picked up
     }
 
@@ -274,6 +284,20 @@ public class Explorer {
             }
         }
         return (nodeIsInList);
+    }
+
+    private static class totalCost {
+        Node prev;
+        int distance;
+
+        totalCost(Node n, int dist) {
+            prev = n;
+            distance = dist;
+        }
+
+        totalCost() {
+
+        }
     }
 
 }
