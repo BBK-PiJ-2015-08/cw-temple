@@ -162,39 +162,14 @@ public class Explorer {
          * only the minimum distance between the given node and the target node for
          * this cavern (no path).
          *
-         * GameState
-         * getCurrentNode
-         * getExit
-         * getVertices
-         * moveTo(Node n)
-         * pickUpGold
-         * getTimeRemaining
-         *
-         * EscapeState
-         * There is a method pickUpGold, but states you must first check if
-         * there is gold. Need to find how to do this.
-         * getTimeRemaining seems pretty key also
-         *
-         * Tile.java
-         * Public method getOriginalGold() returns the original amount of gold
-         * on this tile - so want to avoid already visited tiles as using
-         * pickUpGold on a tile that we've taken all the gold from would throw
-         * an IllegalStateException.
-         * isOpen()
-         *
          * Checking for gold/pizza
          * getVertices to get the entire graph
          * for each node getTile
          * for the tile getGold to get amount of gold
          * sort nodes by gold amount
          *
-         * While time remains above a certain value
-         * Do a* for each goal in turn
-         *
-         * When time's depleted to a dangerous level
-         * Do a* to exit
-         *
          */
+        /** Previous attempt to do A* (have branched off)
         //Nodes that have been searched through
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         //Nodes that have not been fully searched
@@ -233,6 +208,8 @@ public class Explorer {
             //not sure what double p should be in following line (have put 0):
             closedList.add(currentNode, 0);
         }
+         */
+        
     }
 
 
