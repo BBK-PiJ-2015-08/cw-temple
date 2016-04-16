@@ -273,9 +273,15 @@ public class Explorer {
                 //should be, if nodeIsInList returns false, add w to the openList
                 //If I reverse logic it fails
                 //Maybe with current logic it's not adding anything?
+                System.out.println("Before adding w: " + openList.toString());
+                System.out.println("We're considering adding: " + w.toString());
                 if (nodeIsInList(w, openList)) {
+                    System.out.println("Node w was in list");
+                } else {
+                    System.out.println("Node w was not in list");
                     openList.add(w, thisDistFromStart);
                 }
+                System.out.println("After attempt to add w: " + openList.toString());
             }
             closedList.add(currentNode, bestDistFromStart);
         }
