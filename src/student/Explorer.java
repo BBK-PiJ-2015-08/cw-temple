@@ -263,22 +263,19 @@ public class Explorer {
                     return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
                 }
             });
-            //HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
             for (Node w : willBeSorted) {
                 //from GameState moveTo(Node n), distance=length between 2 nodes
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
-
-                //String checkList = openList.toString();
+                //This seems to be working in opposite way I should; logic
+                //should be, if nodeIsInList returns false, add w to the openList
+                //If I reverse logic it fails
+                //Maybe with current logic it's not adding anything?
                 if (nodeIsInList(w, openList)) {
-                    //Need to make sure I'm not trying to add an element already in the openList
                     openList.add(w, thisDistFromStart);
                 }
-/**
-                currentNeighbours.put(w, thisEdgeWeight);
- */
             }
             closedList.add(currentNode, bestDistFromStart);
         }
@@ -299,7 +296,7 @@ public class Explorer {
         boolean nodeIsInList = false;
         Node storageNode;
         PriorityQueueImpl<Node> copyOfOpenList = openList;
-        for (int i = 0; i < copyOfOpenList.size(); i++) {
+        while (!copyOfOpenList.isEmpty()) {
             storageNode = copyOfOpenList.poll();
             if (storageNode.equals(w)) {
                 nodeIsInList = true;
