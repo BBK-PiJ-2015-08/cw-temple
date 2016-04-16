@@ -272,20 +272,10 @@ public class Explorer {
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
 
                 //String checkList = openList.toString();
-                boolean nodeIsInList = false;
-                Node storageNode;
-                PriorityQueueImpl<Node> copyOfOpenList = openList;
-                for (int i = 0; i < copyOfOpenList.size(); i++) {
-                    storageNode = openList.poll();
-                    if (storageNode.equals(w)) {
-                        nodeIsInList = true;
-                    }
-                }
-                if (!nodeIsInList) {
+                if (nodeIsInList(w, openList)) {
                     //Need to make sure I'm not trying to add an element already in the openList
                     openList.add(w, thisDistFromStart);
                 }
-                nodeIsInList = false;
 /**
                 currentNeighbours.put(w, thisEdgeWeight);
  */
@@ -303,6 +293,19 @@ public class Explorer {
     private Integer getCostSoFar(Node currentNode, Node neighbour) {
         costSoFar = costSoFar + getDistanceToNeighbour(currentNode, neighbour);
         return costSoFar;
+    }
+
+    private boolean nodeIsInList (Node w, PriorityQueueImpl openList) {
+        boolean nodeIsInList = false;
+        Node storageNode;
+        PriorityQueueImpl<Node> copyOfOpenList = openList;
+        for (int i = 0; i < copyOfOpenList.size(); i++) {
+            storageNode = copyOfOpenList.poll();
+            if (storageNode.equals(w)) {
+                nodeIsInList = true;
+            }
+        }
+        return (nodeIsInList);
     }
 
 }
