@@ -147,69 +147,70 @@ public class Explorer {
      *
      * @param state the information available at the current state
      */
+    /**
+     * useful:
+     * Cavern
+     * getRowCount()
+     * getColumnCount()
+     * getGraph > getVertices line 296 GameState
+     * getTarget
+     * getTileAt
+     * getNodeAt > line 150 in GameState
+     * (private) minPathLengthToTarget: implementation of Dijkstra's algorithm that returns
+     * only the minimum distance between the given node and the target node for
+     * this cavern (no path).
+     *
+     * Checking for gold/pizza
+     * getVertices to get the entire graph
+     * for each node getTile
+     * for the tile getGold to get amount of gold
+     * sort nodes by gold amount
+     *
+     */
+    /** Previous attempt to do A* (have branched off)
+     //Nodes that have been searched through
+     PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+     //Nodes that have not been fully searched
+     PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
+     openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
+
+     Node startNode = state.getCurrentNode();
+     Node exitNode = state.getExit();
+     while (!openList.isEmpty()) {
+     Node currentNode = openList.poll();
+
+     if (currentNode.equals(exitNode)) {
+     System.out.println("You have reached the exit!");
+     return;
+     }
+     // Node - public methods:
+     // long getID()
+     // Edge getEdge(Node q)
+     // Set<Edge> getExits()
+     // Set<Node> getNeighbours()
+     // Tile getTile()
+     // boolean equals(Object ob)
+     // int hashCode
+     Collection<Node> neighbours = exitNode.getNeighbours();
+     for (Node n : neighbours) {
+     if (n.equals(exitNode)) {
+
+     }
+     // Cost, f, of a node given by f = g + h
+     // g = cost from start to node (number of tiles moved so far)
+     // h = heuristic estimating cheapest path to goal
+
+
+     }
+
+     //not sure what double p should be in following line (have put 0):
+     closedList.add(currentNode, 0);
+     }
+     */
     public void escape(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
-        /**
-         * useful:
-         * Cavern
-         * getRowCount()
-         * getColumnCount()
-         * getGraph > getVertices line 296 GameState
-         * getTarget
-         * getTileAt
-         * getNodeAt > line 150 in GameState
-         * (private) minPathLengthToTarget: implementation of Dijkstra's algorithm that returns
-         * only the minimum distance between the given node and the target node for
-         * this cavern (no path).
-         *
-         * Checking for gold/pizza
-         * getVertices to get the entire graph
-         * for each node getTile
-         * for the tile getGold to get amount of gold
-         * sort nodes by gold amount
-         *
-         */
-        /** Previous attempt to do A* (have branched off)
-        //Nodes that have been searched through
-        PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        //Nodes that have not been fully searched
-        PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
-        openList.add(state.getCurrentNode(), 0); state.getCurrentNode();
-
-        Node startNode = state.getCurrentNode();
-        Node exitNode = state.getExit();
-        while (!openList.isEmpty()) {
-            Node currentNode = openList.poll();
-
-            if (currentNode.equals(exitNode)) {
-                System.out.println("You have reached the exit!");
-                return;
-            }
-            // Node - public methods:
-            // long getID()
-            // Edge getEdge(Node q)
-            // Set<Edge> getExits()
-            // Set<Node> getNeighbours()
-            // Tile getTile()
-            // boolean equals(Object ob)
-            // int hashCode
-            Collection<Node> neighbours = exitNode.getNeighbours();
-            for (Node n : neighbours) {
-                if (n.equals(exitNode)) {
-
-                }
-                // Cost, f, of a node given by f = g + h
-                // g = cost from start to node (number of tiles moved so far)
-                // h = heuristic estimating cheapest path to goal
 
 
-            }
-
-            //not sure what double p should be in following line (have put 0):
-            closedList.add(currentNode, 0);
-        }
-         */
-        
     }
 
 
