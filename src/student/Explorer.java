@@ -230,6 +230,7 @@ public class Explorer {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> deconstructedOpenList = new PriorityQueueImpl<>();
+        PriorityQueueImpl<Node> reversedClosedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
         bestDistFromStart = 0;
         //Using int for sourceBestDistCopy so if it's modified inside a loop,
@@ -280,7 +281,16 @@ public class Explorer {
             }
             openList.poll();
         }
-
+        Integer reversePriorities = Integer.MAX_VALUE;
+        while(!closedList.isEmpty()) {
+            reversedClosedList.add(closedList.poll(), reversePriorities);
+            reversePriorities--;
+        }
+        //skip first node as we're already there
+        //reversedClosedList.poll();
+        while(!reversedClosedList.isEmpty()) {
+            state.moveTo(reversedClosedList.poll());
+        }
         //NB private goldPickedUp is false if gold hasn't been picked up
     }
 
