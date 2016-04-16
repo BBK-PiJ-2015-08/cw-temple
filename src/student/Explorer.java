@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -217,6 +218,30 @@ public class Explorer {
          * package-private implementation to Dijkstra's algorithm returning the
          * minimum distance between the current node and the target node (exit).
          */
+        Node startNode = state.getCurrentNode();
+        Node exitNode = state.getExit();
+        Node currentNode;
+        HashSet<Node> currentNeighbours;
+
+        PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+        PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
+
+        while (!openList.isEmpty()) {
+            //Note scope for currentNode and currentNeighbours
+            currentNode = openList.poll();
+            if (currentNode.equals(exitNode)) {
+                System.out.println("You have escaped!");
+                return;
+            }
+            currentNeighbours = new HashSet<>(currentNode.getNeighbours());
+            for (Node c : currentNeighbours) {
+
+            }
+        }
+    }
+
+    private Node closestNodeToExit (Node currentNode, Node exitNode) {
+
     }
 
 
