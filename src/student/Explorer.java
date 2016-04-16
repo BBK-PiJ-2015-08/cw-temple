@@ -185,99 +185,15 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-        //Integer bestDistFromStart = Integer.MAX_VALUE;
 
-        PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, totalCost> totalCostInfo = new HashMap<Node, totalCost>();
+        List<Node> theWayOut = dijkstra(startNode, exitNode);
+        theWayOut.remove(0);
 
-        PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
-        PriorityQueueImpl<Node> reversedClosedList = new PriorityQueueImpl<>();
-        openList.add(startNode, 0);
-        totalCostInfo.put(startNode, new totalCost());
-        //bestDistFromStart = 0;
-        //Using int for sourceBestDistCopy so if it's modified inside a loop,
-        //it's not modified outside.
-        //int sourceBestDistCopy = bestDistFromStart;
-
-        while (!openList.isEmpty()) {
-            //Note scope for currentNode and currentNeighbours
-            Node currentNode = openList.poll();
-            totalCost currentCost = totalCostInfo.get(currentNode);
-
-            if (currentNode.equals(exitNode)) {
-                System.out.println("You have found where the exit is!");
-                //return;
-            }
-            /**
-            //Concerned the priority queue is actually able to handle sorting by
-            //distance so the below might be redundant
-            Collection<Node> currentNbs = currentNode.getNeighbours();
-            for (Node n : currentNbs) {
-                openList.add(n, getCostSoFar(currentNode, n));
-            }
-            */
-            Collection<Node> escapeNbs = currentNode.getNeighbours();
-            /**
-            List<Node> willBeSorted = new ArrayList<>();
-            for (Node e : escapeNbs) {
-                willBeSorted.add(e);
-            }
-
-            Collections.sort(willBeSorted, new Comparator<Node>(){
-                public int compare(Node o1, Node o2){
-                    if(getDistanceToNeighbour(currentNode, o1) == getDistanceToNeighbour(currentNode, o2))
-                        return 0;
-                    return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
-                }
-            });
-            */
-            for (Node w : escapeNbs) {
-                Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
-                System.out.println("Edge weight between current and this" +
-                        " neighbour is: " + thisEdgeWeight);
-                //int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
-                //sourceDistBestCopy never gets updated
-                //System.out.println("Total distance from start is " + thisDistFromStart);
-
-                totalCost wCost = totalCostInfo.get(w);
-                int wDistance = currentCost.distance + getDistanceToNeighbour(currentNode, w);
-                if (wCost == null) {
-                    openList.add(w, wDistance);
-                    totalCostInfo.put(w, new totalCost(currentNode, wDistance));
-                }
-                else if (!nodeIsInList(w, openList) && wDistance < wCost.distance) {
-                    openList.updatePriority(w, wDistance);
-                    wCost.distance = wDistance;
-                    wCost.prev = currentNode;
-                }
-            }
-            /**
-            if (nodeIsInList(currentNode, closedList)) {
-                //This may be horrendously wrong
-                closedList.updatePriority(currentNode, bestDistFromStart);
-            } else {
-                closedList.add(currentNode, bestDistFromStart);
-            }
-             */
-            //openList.poll();
+        for (Node f : theWayOut) {
+            state.moveTo(f);
         }
-        /**
-        Integer reversePriorities = Integer.MAX_VALUE;
-        while(!closedList.isEmpty()) {
-            reversedClosedList.add(closedList.poll(), reversePriorities);
-            reversePriorities--;
-        }
-         */
-        //skip first node as we're already there
-        //reversedClosedList.poll();
-        /**
-        while(!reversedClosedList.isEmpty()) {
-            state.moveTo(reversedClosedList.poll());
-        }
-         */
-        //NB private goldPickedUp is false if gold hasn't been picked up
-        //findWayOut method here
-        findWayOut(openList.poll(), totalCostInfo);
+        return;
+               // openList.peek(), totalCostInfo);
     }
 
     private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
@@ -305,18 +221,56 @@ public class Explorer {
         return (nodeIsInList);
     }
 
-    private static List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
+    private List<Node> dijkstra(Node startNode, Node exitNode) {
+        PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+        HashMap<Node, totalCost> totalCostInfo = new HashMap<Node, totalCost>();
+
+        openList.add(startNode, 0);
+        totalCostInfo.put(startNode, new totalCost());
+
+        while (!openList.isEmpty()) {
+            Node currentNode = openList.poll();
+            totalCost currentCost = totalCostInfo.get(currentNode);
+
+            Collection<Node> escapeNbs = currentNode.getNeighbours();
+
+            for (Node w : escapeNbs) {
+                Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
+                System.out.println("Edge weight between current and this" +
+                        " neighbour is: " + thisEdgeWeight);
+
+                totalCost wCost = totalCostInfo.get(w);
+                int wDistance = currentCost.distance + getDistanceToNeighbour(currentNode, w);
+                if (wCost == null) {
+                    openList.add(w, wDistance);
+                    totalCostInfo.put(w, new totalCost(currentNode, wDistance));
+                }
+                else if (!nodeIsInList(w, openList) && wDistance < wCost.distance) {
+                    openList.updatePriority(w, wDistance);
+                    wCost.distance = wDistance;
+                    wCost.prev = currentNode;
+                }
+            }
+        }
+        //NB private goldPickedUp is false if gold hasn't been picked up
+        if (openList.isEmpty()) {
+
+        }
+        return findWayOut(openList.peek(), totalCostInfo);
+    }
+
+    private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCostInfo) {
         List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
-            n = totalCost.get(n).prev;
+            n = totalCostInfo.get(n).prev;
         }
         Collections.reverse(wayOut);
         return wayOut;
     }
 
-    private static class totalCost {
+    private class totalCost {
         Node prev;
         int distance;
 
