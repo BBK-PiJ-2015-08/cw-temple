@@ -209,8 +209,8 @@ public class Explorer {
      */
     public void escape(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
-
-
+        System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
+        //Number of steps remaining varies wildly at start of escape phase.
     }
 
 
