@@ -225,9 +225,12 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
+        Integer bestDistFromStart = Integer.MAX_VALUE;
+
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
+        bestDistFromStart = 0;
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
@@ -236,8 +239,14 @@ public class Explorer {
                 System.out.println("You have escaped!");
                 return;
             }
+            /**
             //Concerned the priority queue is actually able to handle sorting by
             //distance so the below might be redundant
+            Collection<Node> currentNbs = currentNode.getNeighbours();
+            for (Node n : currentNbs) {
+                openList.add(n, getCostSoFar(currentNode, n));
+            }
+            */
             Collection<Node> escapeNbs = currentNode.getNeighbours();
             List<Node> willBeSorted = new ArrayList<>();
             for (Node e : escapeNbs) {
@@ -250,15 +259,23 @@ public class Explorer {
                     return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
                 }
             });
-            HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
+
+            //HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
             for (Node w : willBeSorted) {
                 //from GameState moveTo(Node n), distance=length between 2 nodes
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
-
+/**
                 currentNeighbours.put(w, thisEdgeWeight);
+ */
             }
+            closedList.add(currentNode, bestDistFromStart);
+            bestDistFromStart += getDistanceToNeighbour(currentNode,
+                     willBeSorted.get(0));
+            //Feel this is maybe not correct; what if we have a closest node
+            //here for which all subsequent paths are longer?
+            openList.add(willBeSorted.get(0), bestDistFromStart);
 
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
