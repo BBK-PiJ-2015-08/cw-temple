@@ -276,6 +276,8 @@ public class Explorer {
         }
          */
         //NB private goldPickedUp is false if gold hasn't been picked up
+        //findWayOut method here
+        findWayOut(openList.poll(), totalCostInfo);
     }
 
     private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
@@ -301,6 +303,17 @@ public class Explorer {
             }
         }
         return (nodeIsInList);
+    }
+
+    private static List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
+        List<Node> wayOut = new ArrayList<>();
+        Node n = end;
+        while (n != null) {
+            wayOut.add(n);
+            n = totalCost.get(n).prev;
+        }
+        Collections.reverse(wayOut);
+        return wayOut;
     }
 
     private static class totalCost {
