@@ -154,18 +154,6 @@ public class Explorer {
      * @param state the information available at the current state
      */
     /**
-     * useful:
-     * Cavern
-     * getRowCount()
-     * getColumnCount()
-     * getGraph > getVertices line 296 GameState
-     * getTarget
-     * getTileAt
-     * getNodeAt > line 150 in GameState
-     * (private) minPathLengthToTarget: implementation of Dijkstra's algorithm that returns
-     * only the minimum distance between the given node and the target node for
-     * this cavern (no path).
-     *
      * Checking for gold/pizza
      * getVertices to get the entire graph
      * for each node getTile
@@ -174,9 +162,7 @@ public class Explorer {
      *
      */
     public void escape(EscapeState state) {
-        //TODO: Escape from the cavern before time runs out
         System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
-        //Number of steps remaining varies wildly at start of escape phase.
         /**
          * timeRemaining based on computeTimeToEscape, from
          * escapeCavern.minPathLengthToTarget(position), that method is a
@@ -185,24 +171,23 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-
-        List<Node> closedList = new ArrayList<>();
-        //takeWayOut(state, closedList, startNode);
-
+        //List<Node> closedList = new ArrayList<Node>();
         List<Node> wayOut = dijkstra(startNode, exitNode);
-        wayOut.remove(0);
-
+        //wayOut.remove(0);
+        System.out.println("Way out size: " + wayOut.size());
         for (Node f : wayOut) {
             state.moveTo(f);
         }
         System.out.println("Think I found it");
-        return;
+        //return;
     }
 
+    /**
     private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
         int distanceBetweenNodes = currentNode.getEdge(neighbour).length();
         return distanceBetweenNodes;
     }
+     */
 
     /**
     private Integer getCostSoFar(Node currentNode, Node neighbour) {
@@ -221,52 +206,58 @@ public class Explorer {
                 nodeIsInList = true;
             }
         }
-        return (nodeIsInList);
+        return nodeIsInList;
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, totalCost> totalCostInfo = new HashMap<Node, totalCost>();
+        HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
         System.out.println("Here");
         openList.add(startNode, 0);
-        totalCostInfo.put(startNode, new totalCost());
-
-        while (!openList.isEmpty()) {
-
+        totalCost.put(startNode, new totalCost());
+        Set<Edge> escapeEdges;
+        while (!openList.isEmpty() && openList.peek() != exitNode) {
+            //Debugging print statements revealed code is looping around points
+            //"Here2" and "Here3" to infinity.
             Node currentNode = openList.poll();
-            totalCost currentCost = totalCostInfo.get(currentNode);
+            totalCost currentCost = totalCost.get(currentNode);
             System.out.println("Here2");
-            Set<Edge> escapeEdges = currentNode.getExits();
+            escapeEdges = currentNode.getExits();
 
             for (Edge ed : escapeEdges) {
                 System.out.println("Here3");
                 Node w = ed.getOther(currentNode);
-                totalCost wCost = totalCostInfo.get(w);
-                int wDistance = currentCost.distance + ed.length;
+                totalCost wCost = totalCost.get(w);
+                double wDistance = currentCost.distance + ed.length;
                 if (wCost == null) {
                     openList.add(w, wDistance);
-                    totalCostInfo.put(w, new totalCost(currentNode, wDistance));
+                    totalCost.put(w, new totalCost(currentNode, wDistance));
                 }
                 else if (!nodeIsInList(w, openList) && wDistance < wCost.distance) {
                     openList.updatePriority(w, wDistance);
                     wCost.distance = wDistance;
                     wCost.prev = currentNode;
-                } else {
+                }
+                /**
+                else {
                     openList.add(w, wDistance);
                     totalCostInfo.put(w, new totalCost(currentNode, wDistance));
                 }
+                 */
             }
+            //Looping means it doesn't get past here
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
         if (openList.isEmpty()) {
-            System.out.println("The open list is empty");
+            System.out.println("it's empty now");
+            return new ArrayList<Node>();
         }
         System.out.println("Here4");
-        return findWayOut(openList.peek(), totalCostInfo);
+        return findWayOut(openList.peek(), totalCost);
     }
 
     private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
-        List<Node> wayOut = new ArrayList<>();
+        List<Node> wayOut = new ArrayList<Node>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
@@ -285,16 +276,15 @@ public class Explorer {
      */
 
     private class totalCost {
-        Node prev;
-        int distance;
+        private Node prev;
+        private double distance;
 
-        totalCost(Node n, int dist) {
+        private totalCost(Node n, double dist) {
             prev = n;
             distance = dist;
         }
 
-        totalCost() {
-
+        private totalCost() {
         }
     }
 
