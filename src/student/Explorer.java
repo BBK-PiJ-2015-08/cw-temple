@@ -252,16 +252,17 @@ public class Explorer {
             //Want to change Integer in HashMap from distanceBetweenNodes to thisNsCostSoFar
             HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
             for (Node w : willBeSorted) {
-                //from GameState moveTo(Node n), distance is length between two nodes
+                //from GameState moveTo(Node n), distance=length between 2 nodes
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
 
                 currentNeighbours.put(w, thisEdgeWeight);
             }
-
+a
 
         }
+        //NB private goldPickedUp is false if gold hasn't been picked up
     }
 
     private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
@@ -269,9 +270,9 @@ public class Explorer {
         return distanceBetweenNodes;
     }
 
-    private Integer getThisNsCostSoFar(Node currentNode, Node neighbour) {
-        Integer thisNsCostSoFar = costSoFar + getDistanceToNeighbour(currentNode, neighbour);
-        return thisNsCostSoFar;
+    private Integer getCostSoFar(Node currentNode, Node neighbour) {
+        costSoFar = costSoFar + getDistanceToNeighbour(currentNode, neighbour);
+        return costSoFar;
     }
 
 }
