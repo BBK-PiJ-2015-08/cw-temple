@@ -57,7 +57,7 @@ public class Explorer {
      * @param state the information available at the current state
      */
 
-    private Integer costSoFar = 0;
+    //private Integer costSoFar = 0;
 
     public void explore(ExplorationState state) {
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
@@ -185,7 +185,7 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-        Integer bestDistFromStart = Integer.MAX_VALUE;
+        //Integer bestDistFromStart = Integer.MAX_VALUE;
 
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, totalCost> totalCostInfo = new HashMap<Node, totalCost>();
@@ -194,10 +194,10 @@ public class Explorer {
         PriorityQueueImpl<Node> reversedClosedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
         totalCostInfo.put(startNode, new totalCost());
-        bestDistFromStart = 0;
+        //bestDistFromStart = 0;
         //Using int for sourceBestDistCopy so if it's modified inside a loop,
         //it's not modified outside.
-        int sourceBestDistCopy = bestDistFromStart;
+        //int sourceBestDistCopy = bestDistFromStart;
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
@@ -235,9 +235,9 @@ public class Explorer {
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
-                int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
+                //int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
                 //sourceDistBestCopy never gets updated
-                System.out.println("Total distance from start is " + thisDistFromStart);
+                //System.out.println("Total distance from start is " + thisDistFromStart);
 
                 totalCost wCost = totalCostInfo.get(w);
                 int wDistance = currentCost.distance + getDistanceToNeighbour(currentNode, w);
@@ -283,10 +283,12 @@ public class Explorer {
         return distanceBetweenNodes;
     }
 
+    /**
     private Integer getCostSoFar(Node currentNode, Node neighbour) {
         costSoFar = costSoFar + getDistanceToNeighbour(currentNode, neighbour);
         return costSoFar;
     }
+     */
 
     private boolean nodeIsInList (Node w, PriorityQueueImpl openList) {
         boolean nodeIsInList = false;
