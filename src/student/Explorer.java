@@ -236,6 +236,8 @@ public class Explorer {
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
+                //sourceDistBestCopy never gets updated
+                System.out.println("Total distance from start is " + thisDistFromStart);
                 if (!nodeIsInList(w, openList)) {
                     openList.add(w, thisDistFromStart);
                 }
