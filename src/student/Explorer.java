@@ -231,6 +231,9 @@ public class Explorer {
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
         bestDistFromStart = 0;
+        //Using an int for sourceBestDistCopy so if it's modified inside a loop,
+        //it's not modified outside.
+        int sourceBestDistCopy = bestDistFromStart;
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
@@ -266,17 +269,13 @@ public class Explorer {
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
+                int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
+                openList.add(w, thisDistFromStart);
 /**
                 currentNeighbours.put(w, thisEdgeWeight);
  */
             }
             closedList.add(currentNode, bestDistFromStart);
-            bestDistFromStart += getDistanceToNeighbour(currentNode,
-                     willBeSorted.get(0));
-            //Feel this is maybe not correct; what if we have a closest node
-            //here for which all subsequent paths are longer?
-            openList.add(willBeSorted.get(0), bestDistFromStart);
-
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
     }
