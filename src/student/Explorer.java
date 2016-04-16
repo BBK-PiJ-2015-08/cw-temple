@@ -238,7 +238,7 @@ public class Explorer {
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
-            Node currentNode = openList.poll();
+            Node currentNode = openList.peek();
             if (currentNode.equals(exitNode)) {
                 System.out.println("You have escaped!");
                 return;
@@ -273,18 +273,17 @@ public class Explorer {
                 //should be, if nodeIsInList returns false, add w to the openList
                 //If I reverse logic it fails
                 //Maybe with current logic it's not adding anything?
-                System.out.println("Before adding w: " + openList.toString());
-                System.out.println("We're considering adding: " + w.toString());
-                if (nodeIsInList(w, openList)) {
-                    System.out.println("Node w was in list");
-                } else {
-                    System.out.println("Node w was not in list");
+                if (!nodeIsInList(w, openList)) {
                     openList.add(w, thisDistFromStart);
                 }
-                System.out.println("After attempt to add w: " + openList.toString());
             }
-            
-            closedList.add(currentNode, bestDistFromStart);
+            if (nodeIsInList(currentNode, closedList)) {
+                //This may be horrendously wrong
+                closedList.updatePriority(currentNode, bestDistFromStart);
+            } else {
+                closedList.add(currentNode, bestDistFromStart);
+            }
+            openList.poll();
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
     }
