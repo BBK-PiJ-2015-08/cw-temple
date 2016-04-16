@@ -1,5 +1,6 @@
 package student;
 
+import game.Edge;
 import game.EscapeState;
 import game.ExplorationState;
 import game.Node;
@@ -10,9 +11,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Jade Dickinson BBK-PiJ-2015-08
@@ -186,14 +186,17 @@ public class Explorer {
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
 
-        List<Node> theWayOut = dijkstra(startNode, exitNode);
-        theWayOut.remove(0);
+        List<Node> closedList = new ArrayList<>();
+        //takeWayOut(state, closedList, startNode);
 
-        for (Node f : theWayOut) {
+        List<Node> wayOut = dijkstra(startNode, exitNode);
+        wayOut.remove(0);
+
+        for (Node f : wayOut) {
             state.moveTo(f);
         }
+        System.out.println("Think I found it");
         return;
-               // openList.peek(), totalCostInfo);
     }
 
     private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
@@ -224,23 +227,22 @@ public class Explorer {
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, totalCost> totalCostInfo = new HashMap<Node, totalCost>();
-
+        System.out.println("Here");
         openList.add(startNode, 0);
         totalCostInfo.put(startNode, new totalCost());
 
         while (!openList.isEmpty()) {
+
             Node currentNode = openList.poll();
             totalCost currentCost = totalCostInfo.get(currentNode);
+            System.out.println("Here2");
+            Set<Edge> escapeEdges = currentNode.getExits();
 
-            Collection<Node> escapeNbs = currentNode.getNeighbours();
-
-            for (Node w : escapeNbs) {
-                Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
-                System.out.println("Edge weight between current and this" +
-                        " neighbour is: " + thisEdgeWeight);
-
+            for (Edge ed : escapeEdges) {
+                System.out.println("Here3");
+                Node w = ed.getOther(currentNode);
                 totalCost wCost = totalCostInfo.get(w);
-                int wDistance = currentCost.distance + getDistanceToNeighbour(currentNode, w);
+                int wDistance = currentCost.distance + ed.length;
                 if (wCost == null) {
                     openList.add(w, wDistance);
                     totalCostInfo.put(w, new totalCost(currentNode, wDistance));
@@ -249,26 +251,38 @@ public class Explorer {
                     openList.updatePriority(w, wDistance);
                     wCost.distance = wDistance;
                     wCost.prev = currentNode;
+                } else {
+                    openList.add(w, wDistance);
+                    totalCostInfo.put(w, new totalCost(currentNode, wDistance));
                 }
             }
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
         if (openList.isEmpty()) {
-
+            System.out.println("The open list is empty");
         }
+        System.out.println("Here4");
         return findWayOut(openList.peek(), totalCostInfo);
     }
 
-    private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCostInfo) {
+    private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
         List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
-            n = totalCostInfo.get(n).prev;
+            n = totalCost.get(n).prev;
         }
         Collections.reverse(wayOut);
         return wayOut;
     }
+
+    /**
+    private void takeWayOut(EscapeState state, List<Node> closedList, Node fromStart) {
+        List<Node> theWayOut = dijkstra(state.getCurrentNode(), state.getExit());
+        Node nodeNow = theWayOut.remove(0);
+        closedList.add(nodeNow);
+    }
+     */
 
     private class totalCost {
         Node prev;
