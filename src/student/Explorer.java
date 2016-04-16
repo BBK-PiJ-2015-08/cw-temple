@@ -237,22 +237,40 @@ public class Explorer {
                 System.out.println("You have escaped!");
                 return;
             }
-            HashSet<Node> currentNeighboursHashSet = new HashSet<>(currentNode.getNeighbours());
-            HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
 
-            for (Node c : currentNeighboursHashSet) {
-                //from GameState moveTo(Node n), think distance is length between two nodes
-                Integer distanceBetweenNodes = currentNode.getEdge(c).length();
-                System.out.println("edge weight between current and this" +
-                        " neighbour is: " + distanceBetweenNodes);
-                currentNeighbours.put(c, distanceBetweenNodes);
+            Collection<Node> escapeNbs = currentNode.getNeighbours();
+            List<Node> willBeSorted = new ArrayList<>();
+            for (Node e : escapeNbs) {
+                willBeSorted.add(e);
             }
 
-            
+            Collections.sort(willBeSorted, new Comparator<Node>(){
+                public int compare(Node o1, Node o2){
+                    if(getDistanceToNeighbour(currentNode, o1) == getDistanceToNeighbour(currentNode, o2))
+                        return 0;
+                    return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
+                }
+            });
+
+            HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
+
+            for (Node w : willBeSorted) {
+                //from GameState moveTo(Node n), distance is length between two nodes
+                Integer distanceBetweenNodes = currentNode.getEdge(w).length();
+                System.out.println("edge weight between current and this" +
+                        " neighbour is: " + distanceBetweenNodes);
+                //Print statement indicates neighbours are being sorted right,
+                //from lowest to highest edge weight.
+                currentNeighbours.put(w, distanceBetweenNodes);
+            }
+
 
         }
     }
 
-
+    private int getDistanceToNeighbour (Node currentNode, Node neighbour) {
+        int distanceBetweenNodes = currentNode.getEdge(neighbour).length();
+        return distanceBetweenNodes;
+    }
 
 }
