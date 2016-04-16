@@ -229,6 +229,7 @@ public class Explorer {
 
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
+        PriorityQueueImpl<Node> deconstructedOpenList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
         bestDistFromStart = 0;
         //Using an int for sourceBestDistCopy so if it's modified inside a loop,
@@ -269,8 +270,22 @@ public class Explorer {
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
-                //Need to make sure I'm not trying to add an element already in the openList
-                openList.add(w, thisDistFromStart);
+
+                //String checkList = openList.toString();
+                boolean nodeIsInList = false;
+                Node storageNode;
+                PriorityQueueImpl<Node> copyOfOpenList = openList;
+                for (int i = 0; i < copyOfOpenList.size(); i++) {
+                    storageNode = openList.poll();
+                    if (storageNode.equals(w)) {
+                        nodeIsInList = true;
+                    }
+                }
+                if (!nodeIsInList) {
+                    //Need to make sure I'm not trying to add an element already in the openList
+                    openList.add(w, thisDistFromStart);
+                }
+                nodeIsInList = false;
 /**
                 currentNeighbours.put(w, thisEdgeWeight);
  */
