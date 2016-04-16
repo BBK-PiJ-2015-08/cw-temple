@@ -232,7 +232,7 @@ public class Explorer {
         PriorityQueueImpl<Node> deconstructedOpenList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
         bestDistFromStart = 0;
-        //Using an int for sourceBestDistCopy so if it's modified inside a loop,
+        //Using int for sourceBestDistCopy so if it's modified inside a loop,
         //it's not modified outside.
         int sourceBestDistCopy = bestDistFromStart;
 
@@ -264,15 +264,10 @@ public class Explorer {
                 }
             });
             for (Node w : willBeSorted) {
-                //from GameState moveTo(Node n), distance=length between 2 nodes
                 Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
-                //This seems to be working in opposite way I should; logic
-                //should be, if nodeIsInList returns false, add w to the openList
-                //If I reverse logic it fails
-                //Maybe with current logic it's not adding anything?
                 if (!nodeIsInList(w, openList)) {
                     openList.add(w, thisDistFromStart);
                 }
@@ -285,6 +280,7 @@ public class Explorer {
             }
             openList.poll();
         }
+
         //NB private goldPickedUp is false if gold hasn't been picked up
     }
 
