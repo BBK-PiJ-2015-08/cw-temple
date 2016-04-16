@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jade Dickinson BBK-PiJ-2015-08
@@ -220,29 +222,31 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-        Node currentNode;
-        HashSet<Node> currentNeighbours;
+        //Node currentNode;
 
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
+        openList.add(startNode, 0);
+
+        //Map<Long, Integer> routeWeights = new HashMap<>();
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
-            currentNode = openList.poll();
+            Node currentNode = openList.poll();
             if (currentNode.equals(exitNode)) {
                 System.out.println("You have escaped!");
                 return;
             }
-            currentNeighbours = new HashSet<>(currentNode.getNeighbours());
-            for (Node c : currentNeighbours) {
+            HashSet<Node> currentNeighbours = new HashSet<>(currentNode.getNeighbours());
 
+            for (Node c : currentNeighbours) {
+                //from GameState moveTo(Node n), think distance is length between two nodes
+                int distanceBetweenNodes = currentNode.getEdge(c).length();
+                System.out.println("edge weight between these two is: " + distanceBetweenNodes);
             }
         }
     }
 
-    private Node closestNodeToExit (Node currentNode, Node exitNode) {
-
-    }
 
 
 }
