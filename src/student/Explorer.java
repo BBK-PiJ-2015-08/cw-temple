@@ -262,7 +262,6 @@ public class Explorer {
                     return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
                 }
             });
-
             //HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
             for (Node w : willBeSorted) {
                 //from GameState moveTo(Node n), distance=length between 2 nodes
@@ -270,6 +269,7 @@ public class Explorer {
                 System.out.println("Edge weight between current and this" +
                         " neighbour is: " + thisEdgeWeight);
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
+                //Need to make sure I'm not trying to add an element already in the openList
                 openList.add(w, thisDistFromStart);
 /**
                 currentNeighbours.put(w, thisEdgeWeight);
