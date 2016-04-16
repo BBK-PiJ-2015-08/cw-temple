@@ -237,13 +237,19 @@ public class Explorer {
                 System.out.println("You have escaped!");
                 return;
             }
-            HashSet<Node> currentNeighbours = new HashSet<>(currentNode.getNeighbours());
+            HashSet<Node> currentNeighboursHashSet = new HashSet<>(currentNode.getNeighbours());
+            HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
 
-            for (Node c : currentNeighbours) {
+            for (Node c : currentNeighboursHashSet) {
                 //from GameState moveTo(Node n), think distance is length between two nodes
-                int distanceBetweenNodes = currentNode.getEdge(c).length();
-                System.out.println("edge weight between these two is: " + distanceBetweenNodes);
+                Integer distanceBetweenNodes = currentNode.getEdge(c).length();
+                System.out.println("edge weight between current and this" +
+                        " neighbour is: " + distanceBetweenNodes);
+                currentNeighbours.put(c, distanceBetweenNodes);
             }
+
+            
+
         }
     }
 
