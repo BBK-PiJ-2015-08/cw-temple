@@ -229,7 +229,6 @@ public class Explorer {
 
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
-        PriorityQueueImpl<Node> deconstructedOpenList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> reversedClosedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
         bestDistFromStart = 0;
