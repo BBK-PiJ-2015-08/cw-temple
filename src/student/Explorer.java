@@ -283,6 +283,7 @@ public class Explorer {
                 }
                 System.out.println("After attempt to add w: " + openList.toString());
             }
+            
             closedList.add(currentNode, bestDistFromStart);
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
