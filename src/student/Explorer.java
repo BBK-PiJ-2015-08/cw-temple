@@ -236,7 +236,8 @@ public class Explorer {
                 System.out.println("You have escaped!");
                 return;
             }
-
+            //Concerned the priority queue is actually able to handle sorting by
+            //distance so the below might be redundant
             Collection<Node> escapeNbs = currentNode.getNeighbours();
             List<Node> willBeSorted = new ArrayList<>();
             for (Node e : escapeNbs) {
@@ -249,7 +250,6 @@ public class Explorer {
                     return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
                 }
             });
-            //Want to change Integer in HashMap from distanceBetweenNodes to thisNsCostSoFar
             HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
             for (Node w : willBeSorted) {
                 //from GameState moveTo(Node n), distance=length between 2 nodes
@@ -259,7 +259,6 @@ public class Explorer {
 
                 currentNeighbours.put(w, thisEdgeWeight);
             }
-a
 
         }
         //NB private goldPickedUp is false if gold hasn't been picked up
