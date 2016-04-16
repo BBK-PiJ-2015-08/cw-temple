@@ -56,6 +56,9 @@ public class Explorer {
      *
      * @param state the information available at the current state
      */
+
+    private Integer costSoFar = 0;
+
     public void explore(ExplorationState state) {
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
         greedy(state, visited, state.getCurrentLocation());
@@ -222,13 +225,9 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-        //Node currentNode;
-
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         PriorityQueueImpl<Node> closedList = new PriorityQueueImpl<>();
         openList.add(startNode, 0);
-
-        //Map<Long, Integer> routeWeights = new HashMap<>();
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
@@ -243,7 +242,6 @@ public class Explorer {
             for (Node e : escapeNbs) {
                 willBeSorted.add(e);
             }
-
             Collections.sort(willBeSorted, new Comparator<Node>(){
                 public int compare(Node o1, Node o2){
                     if(getDistanceToNeighbour(currentNode, o1) == getDistanceToNeighbour(currentNode, o2))
@@ -251,26 +249,29 @@ public class Explorer {
                     return getDistanceToNeighbour(currentNode, o1) < getDistanceToNeighbour(currentNode, o2) ? -1 : 1;
                 }
             });
-
+            //Want to change Integer in HashMap from distanceBetweenNodes to thisNsCostSoFar
             HashMap<Node, Integer> currentNeighbours = new HashMap<Node, Integer>();
-
             for (Node w : willBeSorted) {
                 //from GameState moveTo(Node n), distance is length between two nodes
-                Integer distanceBetweenNodes = currentNode.getEdge(w).length();
-                System.out.println("edge weight between current and this" +
-                        " neighbour is: " + distanceBetweenNodes);
-                //Print statement indicates neighbours are being sorted right,
-                //from lowest to highest edge weight.
-                currentNeighbours.put(w, distanceBetweenNodes);
+                Integer thisEdgeWeight = getDistanceToNeighbour(currentNode, w);
+                System.out.println("Edge weight between current and this" +
+                        " neighbour is: " + thisEdgeWeight);
+
+                currentNeighbours.put(w, thisEdgeWeight);
             }
 
 
         }
     }
 
-    private int getDistanceToNeighbour (Node currentNode, Node neighbour) {
+    private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
         int distanceBetweenNodes = currentNode.getEdge(neighbour).length();
         return distanceBetweenNodes;
+    }
+
+    private Integer getThisNsCostSoFar(Node currentNode, Node neighbour) {
+        Integer thisNsCostSoFar = costSoFar + getDistanceToNeighbour(currentNode, neighbour);
+        return thisNsCostSoFar;
     }
 
 }
