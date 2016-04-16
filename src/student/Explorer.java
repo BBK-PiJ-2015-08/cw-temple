@@ -201,7 +201,7 @@ public class Explorer {
 
         while (!openList.isEmpty()) {
             //Note scope for currentNode and currentNeighbours
-            Node currentNode = openList.peek();
+            Node currentNode = openList.poll();
             totalCost currentCost = totalCostInfo.get(currentNode);
 
             if (currentNode.equals(exitNode)) {
@@ -238,23 +238,36 @@ public class Explorer {
                 int thisDistFromStart = sourceBestDistCopy + getDistanceToNeighbour(currentNode, w);
                 //sourceDistBestCopy never gets updated
                 System.out.println("Total distance from start is " + thisDistFromStart);
-                if (!nodeIsInList(w, openList)) {
-                    openList.add(w, thisDistFromStart);
+
+                totalCost wCost = totalCostInfo.get(w);
+                int wDistance = currentCost.distance + getDistanceToNeighbour(currentNode, w);
+                if (wCost == null) {
+                    openList.add(w, wDistance);
+                    totalCostInfo.put(w, new totalCost(currentNode, wDistance));
+                }
+                else if (!nodeIsInList(w, openList) && wDistance < wCost.distance) {
+                    openList.updatePriority(w, wDistance);
+                    wCost.distance = wDistance;
+                    wCost.prev = currentNode;
                 }
             }
+            /**
             if (nodeIsInList(currentNode, closedList)) {
                 //This may be horrendously wrong
                 closedList.updatePriority(currentNode, bestDistFromStart);
             } else {
                 closedList.add(currentNode, bestDistFromStart);
             }
-            openList.poll();
+             */
+            //openList.poll();
         }
+        /**
         Integer reversePriorities = Integer.MAX_VALUE;
         while(!closedList.isEmpty()) {
             reversedClosedList.add(closedList.poll(), reversePriorities);
             reversePriorities--;
         }
+         */
         //skip first node as we're already there
         //reversedClosedList.poll();
         /**
