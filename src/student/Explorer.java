@@ -172,6 +172,7 @@ public class Explorer {
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
                 startNode = wayToHighest.remove(0);
                 for (Node f : wayToHighest) {
+                    wayToHighest.remove(f);
                     state.moveTo(f);
                     if (state.getCurrentNode().equals(exitNode)) {
                         return;
