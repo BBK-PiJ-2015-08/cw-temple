@@ -148,11 +148,11 @@ public class Explorer {
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
-        Node highestOrNull = checkForGold(theGraph);
+        Node highestOrNull = checkForGold(state, theGraph);
         while (highestOrNull != null) {
             moveToHighest(state, startNode, highestOrNull);
             startNode = state.getCurrentNode();
-            highestOrNull = checkForGold(theGraph);
+            highestOrNull = checkForGold(state, theGraph);
         }
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
@@ -166,7 +166,7 @@ public class Explorer {
         return;
     }
 
-    private Node checkForGold(Collection<Node> theGraph) {
+    private Node checkForGold(EscapeState state, Collection<Node> theGraph) {
         Node highestOrNull = null;
         int currentHighest = 0;
         for (Node n : theGraph) {
@@ -174,6 +174,10 @@ public class Explorer {
                 highestOrNull = n;
                 currentHighest = n.getTile().getGold();
             }
+        }
+        //If I use 300 in below, fail to end at the stairs. If 400, succeed.
+        if (state.getTimeRemaining() < 400) {
+            highestOrNull = null;
         }
         return highestOrNull;
     }
