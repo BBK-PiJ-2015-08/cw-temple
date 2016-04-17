@@ -148,9 +148,10 @@ public class Explorer {
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
-        Node pizzaOrNull = checkForPizza(theGraph);
-        if (pizzaOrNull != null) {
-            moveToPizza(state, startNode, pizzaOrNull);
+        Node highestOrNull = checkForGold(theGraph);
+        if (highestOrNull != null) {
+            moveToHighest(state, startNode, highestOrNull);
+            System.out.println("Moving to highest");
         }
         startNode = state.getCurrentNode();
         List<Node> wayOut = dijkstra(startNode, exitNode);
@@ -165,21 +166,22 @@ public class Explorer {
         return;
     }
 
-    private Node checkForPizza(Collection<Node> theGraph) {
-        Node pizzaNode = null;
+    private Node checkForGold(Collection<Node> theGraph) {
+        Node highestOrNull = null;
+        int currentHighest = 0;
         for (Node n : theGraph) {
-            if (n.getTile().getGold() == 5000) {
-                pizzaNode = n;
-                System.out.println("Found pizza!");
+            if (n.getTile().getGold() > currentHighest) {
+                highestOrNull = n;
+                currentHighest = n.getTile().getGold();
             }
         }
-        return pizzaNode;
+        return highestOrNull;
     }
 
-    private void moveToPizza(EscapeState state, Node startNode, Node pizzaOrNull) {
-        List<Node> wayToPizza = dijkstra(startNode, pizzaOrNull);
-        wayToPizza.remove(0);
-        for (Node f : wayToPizza) {
+    private void moveToHighest(EscapeState state, Node startNode, Node highestOrNull) {
+        List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+        wayToHighest.remove(0);
+        for (Node f : wayToHighest) {
             state.moveTo(f);
             if (f.getTile().getGold() > 0) {
                 state.pickUpGold();
