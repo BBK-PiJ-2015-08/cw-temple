@@ -132,7 +132,8 @@ public class Explorer {
             sumOfCosts = sumOfCosts + checkLength.length;
         }
         //Almost totally sure this is reducing my score
-        if (state.getTimeRemaining() - 1531 < sumOfCosts) {
+        System.out.println("sumOfCosts is: " + sumOfCosts);
+        if (state.getTimeRemaining() - sumOfCosts < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
             }
@@ -159,6 +160,7 @@ public class Explorer {
             }
             while (currentHighest > 0) {
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+                wayToHighest.remove(0);
                 for (int i = 0; i < wayToHighest.size(); i++) {
                     Node f = wayToHighest.get(i);
                     wayToHighest.remove(f);
