@@ -149,11 +149,10 @@ public class Explorer {
         Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
         Node highestOrNull = checkForGold(theGraph);
-        if (highestOrNull != null) {
+        while (highestOrNull != null) {
             moveToHighest(state, startNode, highestOrNull);
-            System.out.println("Moving to highest");
+            startNode = state.getCurrentNode();
         }
-        startNode = state.getCurrentNode();
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
         System.out.println("Way out size: " + wayOut.size());
