@@ -178,19 +178,6 @@ public class Explorer {
         return;
     }
 
-    private boolean nodeIsInList (Node w, PriorityQueueImpl openList) {
-        boolean nodeIsInList = false;
-        Node storageNode;
-        PriorityQueueImpl<Node> copyOfOpenList = openList;
-        while (!copyOfOpenList.isEmpty()) {
-            storageNode = copyOfOpenList.poll();
-            if (storageNode.equals(w)) {
-                nodeIsInList = true;
-            }
-        }
-        return nodeIsInList;
-    }
-
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
