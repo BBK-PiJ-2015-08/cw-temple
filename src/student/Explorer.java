@@ -202,7 +202,6 @@ public class Explorer {
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
-        //7
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
         openList.add(startNode, 0);
