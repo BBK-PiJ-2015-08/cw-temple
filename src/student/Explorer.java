@@ -152,6 +152,7 @@ public class Explorer {
         while (highestOrNull != null) {
             moveToHighest(state, startNode, highestOrNull);
             startNode = state.getCurrentNode();
+            highestOrNull = checkForGold(theGraph);
         }
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
