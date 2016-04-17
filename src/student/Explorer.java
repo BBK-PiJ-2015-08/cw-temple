@@ -214,21 +214,6 @@ public class Explorer {
         }
     }
 
-    private void moveToHighest(EscapeState state, Node startNode, Node highestOrNull) {
-        /**
-        //6
-        List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
-        //8
-        wayToHighest.remove(0);
-        for (Node f : wayToHighest) {
-            state.moveTo(f);
-            if (f.getTile().getGold() > 0) {
-                state.pickUpGold();
-            }
-        }
-         */
-    }
-
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         //7
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
