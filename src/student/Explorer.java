@@ -124,7 +124,9 @@ public class Explorer {
         Node exitNode = state.getExit();
 
         Collection<Node> theGraph = state.getVertices();
-        checkForGold(state, theGraph, startNode, exitNode);
+        while (!state.getCurrentNode().equals(exitNode)) {
+            checkForGold(state, theGraph, startNode, exitNode);
+        }
         /**
         while (highestOrNull != null) {
             //5
@@ -146,19 +148,20 @@ public class Explorer {
             }
         }
          */
+        System.out.println("He thinks hes left");
         return;
     }
 
     private void checkForGold(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
-        if (state.getCurrentNode().equals(exitNode)) {
-            return;
-        }
+        //if (state.getCurrentNode().equals(exitNode)) {
+        //    return;
+        //}
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
-        if (state.getTimeRemaining() - 500 < checkWayOut.size()) {
+        if (state.getTimeRemaining() - 700 < checkWayOut.size()) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
             }
-            List<Node> escapeNow = dijkstra(startNode, exitNode);
+            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             System.out.println("escapeNow size: " + escapeNow.size());
             for (Node f : escapeNow) {
@@ -179,13 +182,10 @@ public class Explorer {
                     highestOrNull = n;
                     currentHighest = n.getTile().getGold();
                 }
-                if (state.getCurrentNode().equals(exitNode)) {
-                    return;
-                }
             }
-            while (highestOrNull != null) {
+            while (currentHighest > 0) {
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
-                wayToHighest.remove(0);
+                startNode = wayToHighest.remove(0);
                 for (Node f : wayToHighest) {
                     state.moveTo(f);
                     if (state.getCurrentNode().equals(exitNode)) {
@@ -195,7 +195,7 @@ public class Explorer {
                         state.pickUpGold();
                     }
                     theGraph = state.getVertices();
-                    checkForGold(state, theGraph, f, exitNode);
+                    //checkForGold(state, theGraph, f, exitNode);
                 }
             }
         }
