@@ -147,13 +147,20 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
+
         Collection<Node> theGraph = state.getVertices();
-        Node highestOrNull = checkForGold(state, theGraph);
+        //1
+        Node highestOrNull = checkForGold(state, theGraph, startNode);
+        //4
         while (highestOrNull != null) {
+            //5
             moveToHighest(state, startNode, highestOrNull);
             startNode = state.getCurrentNode();
-            highestOrNull = checkForGold(state, theGraph);
+            //9
+            highestOrNull = checkForGold(state, theGraph, startNode);
         }
+
+        startNode = state.getCurrentNode();
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
         System.out.println("Way out size: " + wayOut.size());
@@ -166,7 +173,9 @@ public class Explorer {
         return;
     }
 
-    private Node checkForGold(EscapeState state, Collection<Node> theGraph) {
+    private Node checkForGold(EscapeState state, Collection<Node> theGraph, Node startNode) {
+        //2
+        //10
         Node highestOrNull = null;
         int currentHighest = 0;
         for (Node n : theGraph) {
@@ -175,20 +184,17 @@ public class Explorer {
                 currentHighest = n.getTile().getGold();
             }
         }
-        //If I use 300 in below, fail to end at the stairs.
-        //350 fails
-        //Running TXTMain 100 times, 400 sometimes fails
-        //500 sometimes fails
-        //600 sometimes fails
-        //700 succeeds but I feel this is not smart
-        if (state.getTimeRemaining() < 700) {
+        //3
+        if (state.getTimeRemaining() < 1000) {
             highestOrNull = null;
         }
         return highestOrNull;
     }
 
     private void moveToHighest(EscapeState state, Node startNode, Node highestOrNull) {
+        //6
         List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+        //8
         wayToHighest.remove(0);
         for (Node f : wayToHighest) {
             state.moveTo(f);
@@ -199,6 +205,7 @@ public class Explorer {
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
+        //7
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
         openList.add(startNode, 0);
@@ -229,6 +236,7 @@ public class Explorer {
     }
 
     private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
+        //5
         List<Node> wayOut = new ArrayList<Node>();
         Node n = end;
         while (n != null) {
