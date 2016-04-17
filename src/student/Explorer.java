@@ -161,6 +161,7 @@ public class Explorer {
             highestOrNull = checkForGold(state, theGraph, startNode);
         }
         */
+        /**
         startNode = state.getCurrentNode();
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
@@ -171,6 +172,7 @@ public class Explorer {
                 state.pickUpGold();
             }
         }
+         */
         return;
     }
 
@@ -178,15 +180,7 @@ public class Explorer {
         //2
         //10
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
-        Node highestOrNull = null;
-        int currentHighest = 0;
-        for (Node n : theGraph) {
-            if (n.getTile().getGold() > currentHighest) {
-                highestOrNull = n;
-                currentHighest = n.getTile().getGold();
-            }
-        }
-        //3
+
         if (state.getTimeRemaining() - 500 < checkWayOut.size()) {
             List<Node> escapeNow = dijkstra(startNode, exitNode);
             escapeNow.remove(0);
@@ -198,22 +192,34 @@ public class Explorer {
                 }
             }
         }
-        while (highestOrNull != null) {
-            //5
-            //moveToHighest(state, startNode, highestOrNull);
-            List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
-            wayToHighest.remove(0);
-            for (Node f : wayToHighest) {
-                state.moveTo(f);
-                startNode = state.getCurrentNode();
-                if (f.getTile().getGold() > 0) {
-                    state.pickUpGold();
-                    checkForGold(state, theGraph, startNode, exitNode);
+        else {
+            Node highestOrNull = null;
+            int currentHighest = 0;
+            for (Node n : theGraph) {
+                if (n.getTile().getGold() > currentHighest) {
+                    highestOrNull = n;
+                    currentHighest = n.getTile().getGold();
                 }
             }
-            //startNode = state.getCurrentNode();
-            //9
-            //highestOrNull = checkForGold(state, theGraph, startNode, exitNode);
+            //3
+
+            while (highestOrNull != null) {
+                //5
+                //moveToHighest(state, startNode, highestOrNull);
+                List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+                wayToHighest.remove(0);
+                for (Node f : wayToHighest) {
+                    state.moveTo(f);
+                    startNode = state.getCurrentNode();
+                    if (f.getTile().getGold() > 0) {
+                        state.pickUpGold();
+                        checkForGold(state, theGraph, startNode, exitNode);
+                    }
+                }
+                //startNode = state.getCurrentNode();
+                //9
+                //highestOrNull = checkForGold(state, theGraph, startNode, exitNode);
+            }
         }
         //return highestOrNull;
     }
