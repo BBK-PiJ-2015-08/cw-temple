@@ -63,7 +63,6 @@ public class Explorer {
     }
 
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
-        //Best-case: 1.3 bonus multiplier. Worst-case: 1.0.
         if (state.getDistanceToTarget() == 0) {
             System.out.println("You have found the orb!");
             return;
