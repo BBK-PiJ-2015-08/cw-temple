@@ -44,16 +44,6 @@ public class Explorer {
      * tile by its ID. Doing this will change state to reflect your new
      * position.
      *
-     * A suggested first implementation that will always find the orb, but
-     * likely won't receive a large bonus multiplier, is a depth-first search.
-     *
-     * JD: thoughts on possible algorithms
-     * Depth-first (Stack)
-     * Breadth-first (Queue)
-     * Best first (Priority Queue) <- there is one in this project.
-     * A* (also uses a Priority Queue)
-     * Dijkstra's algorithm (also uses a Priority Queue)
-     *
      * @param state the information available at the current state
      */
 
@@ -120,22 +110,7 @@ public class Explorer {
      * the starting position to the exit, although this will not collect much
      * gold.
      *
-     * Thoughts on possibilities:
-     * Dijkstra's algorithm (also uses a Priority Queue)
-     * A* ("") <- extension of Dijkstra's which uses heuristics to guide search.
-     * Going to start with this instead of best-first based on
-     * http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html
-     * Best first (Priority Queue) <- there is one in this project.
-     *
      * @param state the information available at the current state
-     */
-    /**
-     * Checking for gold/pizza
-     * getVertices to get the entire graph
-     * for each node getTile
-     * for the tile getGold to get amount of gold
-     * sort nodes by gold amount
-     *
      */
     public void escape(EscapeState state) {
         System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
@@ -180,11 +155,17 @@ public class Explorer {
         }
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
         if (state.getTimeRemaining() - 500 < checkWayOut.size()) {
+            if (state.getCurrentNode().equals(exitNode)) {
+                return;
+            }
             List<Node> escapeNow = dijkstra(startNode, exitNode);
             escapeNow.remove(0);
             System.out.println("escapeNow size: " + escapeNow.size());
             for (Node f : escapeNow) {
                 state.moveTo(f);
+                if (state.getCurrentNode().equals(exitNode)) {
+                    return;
+                }
                 if (f.getTile().getGold() > 0) {
                     state.pickUpGold();
                 }
@@ -198,12 +179,18 @@ public class Explorer {
                     highestOrNull = n;
                     currentHighest = n.getTile().getGold();
                 }
+                if (state.getCurrentNode().equals(exitNode)) {
+                    return;
+                }
             }
             while (highestOrNull != null) {
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
                 wayToHighest.remove(0);
                 for (Node f : wayToHighest) {
                     state.moveTo(f);
+                    if (state.getCurrentNode().equals(exitNode)) {
+                        return;
+                    }
                     if (f.getTile().getGold() > 0) {
                         state.pickUpGold();
                     }
