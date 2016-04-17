@@ -124,7 +124,6 @@ public class Explorer {
         Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
         checkForGold(state, theGraph, startNode, exitNode);
-        System.out.println("He thinks hes left");
         return;
     }
 
@@ -136,7 +135,6 @@ public class Explorer {
         int sumOfCosts = 0;
         for (int i = 0; i+1 < checkWayOut.size(); i++) {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
-            //int x = checkLength.length;
             sumOfCosts = sumOfCosts + checkLength.length;
         }
 
@@ -146,7 +144,6 @@ public class Explorer {
             }
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
-            System.out.println("escapeNow size: " + escapeNow.size());
             for (Node f : escapeNow) {
                 state.moveTo(f);
                 if (state.getCurrentNode().equals(exitNode)) {
