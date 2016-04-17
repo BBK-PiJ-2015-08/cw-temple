@@ -138,6 +138,8 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             int x = checkLength.length;
             System.out.println("Length of this edge is: " + x);
+            sumOfCosts = sumOfCosts + x;
+            System.out.println("Sum of costs of path out is: " + sumOfCosts);
         }
 
         if (state.getTimeRemaining() - 700 < checkWayOut.size()) {
