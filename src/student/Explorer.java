@@ -115,7 +115,7 @@ public class Explorer {
     public void escape(EscapeState state) {
         System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
         Node startNode = state.getCurrentNode();
-        Node exitNode = state.getExit();
+        final Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
         seekGoldOrExit(state, theGraph, startNode, exitNode);
         return;
