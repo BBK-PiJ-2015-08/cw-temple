@@ -179,6 +179,9 @@ public class Explorer {
     private void checkForGold(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
         //2
         //10
+        if (state.getCurrentNode().equals(exitNode)) {
+            return;
+        }
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
 
         if (state.getTimeRemaining() - 500 < checkWayOut.size()) {
@@ -204,11 +207,6 @@ public class Explorer {
             //3
 
             while (highestOrNull != null) {
-                /**
-                if (state.getCurrentNode().equals(exitNode)) {
-                    return;
-                }
-                 */
                 //5
                 //moveToHighest(state, startNode, highestOrNull);
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
@@ -218,8 +216,8 @@ public class Explorer {
                     startNode = state.getCurrentNode();
                     if (f.getTile().getGold() > 0) {
                         state.pickUpGold();
-                        checkForGold(state, theGraph, startNode, exitNode);
                     }
+                    checkForGold(state, theGraph, startNode, exitNode);
                 }
                 //startNode = state.getCurrentNode();
                 //9
