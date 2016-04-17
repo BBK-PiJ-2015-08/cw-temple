@@ -113,7 +113,6 @@ public class Explorer {
      * @param state the information available at the current state
      */
     public void escape(EscapeState state) {
-        System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
         Node startNode = state.getCurrentNode();
         final Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
