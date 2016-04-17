@@ -132,7 +132,7 @@ public class Explorer {
             sumOfCosts = sumOfCosts + checkLength.length;
         }
         System.out.println(sumOfCosts);
-        if (state.getTimeRemaining() - 500 < sumOfCosts) {
+        if (state.getTimeRemaining() - 2000 < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
             }
