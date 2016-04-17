@@ -142,7 +142,7 @@ public class Explorer {
             System.out.println("Sum of costs of path out is: " + sumOfCosts);
         }
 
-        if (state.getTimeRemaining() - 700 < checkWayOut.size()) {
+        if (state.getTimeRemaining() - 700 < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
             }
