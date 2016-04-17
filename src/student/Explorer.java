@@ -130,7 +130,7 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
-        if (state.getTimeRemaining() - 1400 < sumOfCosts) {
+        if (state.getTimeRemaining() - 1300 < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
             }
