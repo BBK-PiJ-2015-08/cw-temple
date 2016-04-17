@@ -131,7 +131,7 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
-
+        //Almost totally sure this is reducing my score
         if (state.getTimeRemaining() - 1531 < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
