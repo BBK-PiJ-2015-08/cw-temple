@@ -162,17 +162,22 @@ public class Explorer {
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
                 wayToHighest.remove(0);
                 for (int i = 0; i < wayToHighest.size(); i++) {
+                    if (state.getCurrentNode().equals(exitNode)) {
+                        return;
+                    }
                     Node f = wayToHighest.get(i);
                     wayToHighest.remove(f);
                     state.moveTo(f);
                     if (state.getCurrentNode().equals(exitNode)) {
                         return;
                     }
-                    if (f.getTile().getGold() > 0) {
-                        state.pickUpGold();
+                    else {
+                        if (f.getTile().getGold() > 0) {
+                            state.pickUpGold();
+                        }
+                        theGraph = state.getVertices();
+                        seekGoldOrExit(state, theGraph, f, exitNode);
                     }
-                    theGraph = state.getVertices();
-                    seekGoldOrExit(state, theGraph, f, exitNode);
                 }
             }
         }
