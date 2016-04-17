@@ -145,17 +145,11 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
-        if (state.getTimeRemaining() - 1577 < sumOfCosts) {
-            if (state.getCurrentNode().equals(exitNode)) {
-                //return;
-            }
+        if (state.getTimeRemaining() - 1369 < sumOfCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             for (Node f : escapeNow) {
                 state.moveTo(f);
-                if (state.getCurrentNode().equals(exitNode)) {
-                    //return;
-                }
                 if (f.getTile().getGold() > 0) {
                     state.pickUpGold();
                 }
@@ -177,16 +171,11 @@ public class Explorer {
                     Node f = wayToHighest.get(i);
                     wayToHighest.remove(f);
                     state.moveTo(f);
-                    if (state.getCurrentNode().equals(exitNode)) {
-                        return;
+                    if (f.getTile().getGold() > 0) {
+                        state.pickUpGold();
                     }
-                    else {
-                        if (f.getTile().getGold() > 0) {
-                            state.pickUpGold();
-                        }
-                        theGraph = state.getVertices();
-                        seekGoldOrExit(state, theGraph, f, exitNode);
-                    }
+                    theGraph = state.getVertices();
+                    seekGoldOrExit(state, theGraph, f, exitNode);
                 }
             }
         }
