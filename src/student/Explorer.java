@@ -174,6 +174,9 @@ public class Explorer {
         System.out.println("Way out size: " + wayOut.size());
         for (Node f : wayOut) {
             state.moveTo(f);
+            if (f.getTile().getGold() > 0) {
+                state.pickUpGold();
+            }
         }
         return;
     }
