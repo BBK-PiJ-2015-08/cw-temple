@@ -57,8 +57,6 @@ public class Explorer {
      * @param state the information available at the current state
      */
 
-    //private Integer costSoFar = 0;
-
     public void explore(ExplorationState state) {
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
         greedy(state, visited, state.getCurrentLocation());
@@ -171,7 +169,6 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-        //List<Node> closedList = new ArrayList<Node>();
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
         System.out.println("Way out size: " + wayOut.size());
@@ -180,20 +177,6 @@ public class Explorer {
         }
         return;
     }
-
-    /**
-    private int getDistanceToNeighbour(Node currentNode, Node neighbour) {
-        int distanceBetweenNodes = currentNode.getEdge(neighbour).length();
-        return distanceBetweenNodes;
-    }
-     */
-
-    /**
-    private Integer getCostSoFar(Node currentNode, Node neighbour) {
-        costSoFar = costSoFar + getDistanceToNeighbour(currentNode, neighbour);
-        return costSoFar;
-    }
-     */
 
     private boolean nodeIsInList (Node w, PriorityQueueImpl openList) {
         boolean nodeIsInList = false;
@@ -211,20 +194,14 @@ public class Explorer {
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
-        System.out.println("Here");
         openList.add(startNode, 0);
         totalCost.put(startNode, new totalCost());
 
         while (!openList.isEmpty() && openList.peek() != exitNode) {
-
-
             Node currentNode = openList.poll();
             totalCost currentCost = totalCost.get(currentNode);
-            System.out.println("Here2");
             Set<Edge> escapeEdges = currentNode.getExits();
-
             for (Edge ed : escapeEdges) {
-                System.out.println("Here3");
                 Node w = ed.getOther(currentNode);
                 totalCost wCost = totalCost.get(w);
                 double wDistance = currentCost.distance + ed.length;
@@ -239,21 +216,8 @@ public class Explorer {
                         wCost.prev = currentNode;
                     }
                 }
-                /**
-                else {
-                    openList.add(w, wDistance);
-                    totalCostInfo.put(w, new totalCost(currentNode, wDistance));
-                }
-                 */
             }
-            //Looping means it doesn't get past here
         }
-        //Believe the below was making my wayOut always be of size 0.
-        //NB private goldPickedUp is false if gold hasn't been picked up
-        //if (openList.isEmpty()) {
-        //    return new ArrayList<Node>();
-        //}
-        System.out.println("Here4");
         return findWayOut(openList.peek(), totalCost);
     }
 
@@ -268,23 +232,13 @@ public class Explorer {
         return wayOut;
     }
 
-    /**
-    private void takeWayOut(EscapeState state, List<Node> closedList, Node fromStart) {
-        List<Node> theWayOut = dijkstra(state.getCurrentNode(), state.getExit());
-        Node nodeNow = theWayOut.remove(0);
-        closedList.add(nodeNow);
-    }
-     */
-
     private class totalCost {
         private Node prev;
         private double distance;
-
         private totalCost(Node n, double dist) {
             prev = n;
             distance = dist;
         }
-
         private totalCost() {
         }
     }
