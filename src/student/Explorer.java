@@ -131,8 +131,10 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
+        System.out.println("Sum of costs: " + sumOfCosts);
+        //System.out.println(state.getCurrentNode().);
         //Almost totally sure this is reducing my score
-        if (state.getTimeRemaining() - sumOfCosts < sumOfCosts) {
+        if (state.getTimeRemaining() - 500 < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
             }
