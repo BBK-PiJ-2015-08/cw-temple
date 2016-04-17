@@ -150,16 +150,9 @@ public class Explorer {
         Collection<Node> theGraph = state.getVertices();
         Node pizzaOrNull = checkForPizza(theGraph);
         if (pizzaOrNull != null) {
-            List<Node> wayToPizza = dijkstra(startNode, pizzaOrNull);
-            wayToPizza.remove(0);
-            for (Node f : wayToPizza) {
-                state.moveTo(f);
-                if (f.getTile().getGold() > 0) {
-                    state.pickUpGold();
-                }
-            }
-            startNode = state.getCurrentNode();
+            moveToPizza(state, startNode, pizzaOrNull);
         }
+        startNode = state.getCurrentNode();
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
         System.out.println("Way out size: " + wayOut.size());
@@ -181,6 +174,17 @@ public class Explorer {
             }
         }
         return pizzaNode;
+    }
+
+    private void moveToPizza(EscapeState state, Node startNode, Node pizzaOrNull) {
+        List<Node> wayToPizza = dijkstra(startNode, pizzaOrNull);
+        wayToPizza.remove(0);
+        for (Node f : wayToPizza) {
+            state.moveTo(f);
+            if (f.getTile().getGold() > 0) {
+                state.pickUpGold();
+            }
+        }
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
