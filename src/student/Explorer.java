@@ -222,7 +222,7 @@ public class Explorer {
         return wayOut;
     }
 
-    private class totalCost {
+    private static class totalCost {
         private Node prev;
         private double distance;
         private totalCost(Node n, double dist) {
