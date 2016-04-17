@@ -151,6 +151,7 @@ public class Explorer {
         Node pizzaOrNull = checkForPizza(theGraph);
         if (pizzaOrNull != null) {
             List<Node> wayToPizza = dijkstra(startNode, pizzaOrNull);
+            wayToPizza.remove(0);
             for (Node f : wayToPizza) {
                 state.moveTo(f);
                 if (f.getTile().getGold() > 0) {
