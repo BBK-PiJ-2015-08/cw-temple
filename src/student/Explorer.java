@@ -178,8 +178,7 @@ public class Explorer {
         for (Node f : wayOut) {
             state.moveTo(f);
         }
-        System.out.println("Think I found it");
-        //return;
+        return;
     }
 
     /**
@@ -215,14 +214,14 @@ public class Explorer {
         System.out.println("Here");
         openList.add(startNode, 0);
         totalCost.put(startNode, new totalCost());
-        Set<Edge> escapeEdges;
+
         while (!openList.isEmpty() && openList.peek() != exitNode) {
-            //Debugging print statements revealed code is looping around points
-            //"Here2" and "Here3" to infinity.
+
+
             Node currentNode = openList.poll();
             totalCost currentCost = totalCost.get(currentNode);
             System.out.println("Here2");
-            escapeEdges = currentNode.getExits();
+            Set<Edge> escapeEdges = currentNode.getExits();
 
             for (Edge ed : escapeEdges) {
                 System.out.println("Here3");
@@ -233,10 +232,12 @@ public class Explorer {
                     openList.add(w, wDistance);
                     totalCost.put(w, new totalCost(currentNode, wDistance));
                 }
-                else if (!nodeIsInList(w, openList) && wDistance < wCost.distance) {
-                    openList.updatePriority(w, wDistance);
-                    wCost.distance = wDistance;
-                    wCost.prev = currentNode;
+                else {
+                    if (wDistance < wCost.distance) {
+                        openList.updatePriority(w, wDistance);
+                        wCost.distance = wDistance;
+                        wCost.prev = currentNode;
+                    }
                 }
                 /**
                 else {
@@ -247,11 +248,11 @@ public class Explorer {
             }
             //Looping means it doesn't get past here
         }
+        //Believe the below was making my wayOut always be of size 0.
         //NB private goldPickedUp is false if gold hasn't been picked up
-        if (openList.isEmpty()) {
-            System.out.println("it's empty now");
-            return new ArrayList<Node>();
-        }
+        //if (openList.isEmpty()) {
+        //    return new ArrayList<Node>();
+        //}
         System.out.println("Here4");
         return findWayOut(openList.peek(), totalCost);
     }
@@ -263,7 +264,7 @@ public class Explorer {
             wayOut.add(n);
             n = totalCost.get(n).prev;
         }
-        Collections.reverse(wayOut);
+        //Collections.reverse(wayOut);
         return wayOut;
     }
 
