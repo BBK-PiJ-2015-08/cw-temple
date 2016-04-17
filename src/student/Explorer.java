@@ -123,11 +123,11 @@ public class Explorer {
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
-        checkForGold(state, theGraph, startNode, exitNode);
+        seekGoldOrExit(state, theGraph, startNode, exitNode);
         return;
     }
 
-    private void checkForGold(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
+    private void seekGoldOrExit(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
@@ -176,7 +176,7 @@ public class Explorer {
                         state.pickUpGold();
                     }
                     theGraph = state.getVertices();
-                    checkForGold(state, theGraph, f, exitNode);
+                    seekGoldOrExit(state, theGraph, f, exitNode);
                 }
             }
         }
