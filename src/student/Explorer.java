@@ -114,12 +114,6 @@ public class Explorer {
      */
     public void escape(EscapeState state) {
         System.out.println("George has " + state.getTimeRemaining() + " steps left before ceiling collapses");
-        /**
-         * timeRemaining based on computeTimeToEscape, from
-         * escapeCavern.minPathLengthToTarget(position), that method is a
-         * package-private implementation to Dijkstra's algorithm returning the
-         * minimum distance between the current node and the target node (exit).
-         */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
         Collection<Node> theGraph = state.getVertices();
