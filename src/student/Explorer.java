@@ -173,7 +173,7 @@ public class Explorer {
         Node exitNode = state.getExit();
         //List<Node> closedList = new ArrayList<Node>();
         List<Node> wayOut = dijkstra(startNode, exitNode);
-        //wayOut.remove(0);
+        wayOut.remove(0);
         System.out.println("Way out size: " + wayOut.size());
         for (Node f : wayOut) {
             state.moveTo(f);
@@ -264,7 +264,7 @@ public class Explorer {
             wayOut.add(n);
             n = totalCost.get(n).prev;
         }
-        //Collections.reverse(wayOut);
+        Collections.reverse(wayOut);
         return wayOut;
     }
 
