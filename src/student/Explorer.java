@@ -204,6 +204,11 @@ public class Explorer {
             //3
 
             while (highestOrNull != null) {
+                /**
+                if (state.getCurrentNode().equals(exitNode)) {
+                    return;
+                }
+                 */
                 //5
                 //moveToHighest(state, startNode, highestOrNull);
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
