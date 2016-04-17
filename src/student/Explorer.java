@@ -175,7 +175,9 @@ public class Explorer {
                 currentHighest = n.getTile().getGold();
             }
         }
-        //If I use 300 in below, fail to end at the stairs. If 400, succeed.
+        //If I use 300 in below, fail to end at the stairs.
+        //350 fails
+        //Running TXTMain 100 times, 400 sometimes fails
         if (state.getTimeRemaining() < 400) {
             highestOrNull = null;
         }
