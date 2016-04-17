@@ -149,9 +149,7 @@ public class Explorer {
         Node exitNode = state.getExit();
 
         Collection<Node> theGraph = state.getVertices();
-        //1
         checkForGold(state, theGraph, startNode, exitNode);
-        //4
         /**
         while (highestOrNull != null) {
             //5
@@ -177,13 +175,10 @@ public class Explorer {
     }
 
     private void checkForGold(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
-        //2
-        //10
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
-
         if (state.getTimeRemaining() - 500 < checkWayOut.size()) {
             List<Node> escapeNow = dijkstra(startNode, exitNode);
             escapeNow.remove(0);
@@ -204,23 +199,19 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
                 }
             }
-            //3
-
             while (highestOrNull != null) {
-                //5
                 //moveToHighest(state, startNode, highestOrNull);
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
                 wayToHighest.remove(0);
                 for (Node f : wayToHighest) {
                     state.moveTo(f);
-                    startNode = state.getCurrentNode();
                     if (f.getTile().getGold() > 0) {
                         state.pickUpGold();
                     }
-                    checkForGold(state, theGraph, startNode, exitNode);
+                    theGraph = state.getVertices();
+                    checkForGold(state, theGraph, f, exitNode);
                 }
                 //startNode = state.getCurrentNode();
-                //9
                 //highestOrNull = checkForGold(state, theGraph, startNode, exitNode);
             }
         }
@@ -248,7 +239,6 @@ public class Explorer {
         HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
         openList.add(startNode, 0);
         totalCost.put(startNode, new totalCost());
-
         while (!openList.isEmpty() && openList.peek() != exitNode) {
             Node currentNode = openList.poll();
             totalCost currentCost = totalCost.get(currentNode);
@@ -274,7 +264,6 @@ public class Explorer {
     }
 
     private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
-        //5
         List<Node> wayOut = new ArrayList<Node>();
         Node n = end;
         while (n != null) {
