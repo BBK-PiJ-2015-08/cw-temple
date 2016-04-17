@@ -133,6 +133,13 @@ public class Explorer {
             return;
         }
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
+        int sumOfCosts = 0;
+        for (int i = 0; i+1 < checkWayOut.size(); i++) {
+            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
+            int x = checkLength.length;
+            System.out.println("Length of this edge is: " + x);
+        }
+
         if (state.getTimeRemaining() - 700 < checkWayOut.size()) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
