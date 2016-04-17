@@ -147,16 +147,16 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-        boolean pizza = false;
         Collection<Node> theGraph = state.getVertices();
-        for (Node n : theGraph) {
-            if (n.getTile().getGold() == 5000) {
-                pizza = true;
-                Node pizzaNode = n;
+        Node pizzaOrNull = checkForPizza(theGraph);
+        if (pizzaOrNull != null) {
+            List<Node> wayToPizza = dijkstra(startNode, pizzaOrNull);
+            for (Node f : wayToPizza) {
+                state.moveTo(f);
+                if (f.getTile().getGold() > 0) {
+                    state.pickUpGold();
+                }
             }
-        }
-        if (pizza) {
-            List<Node> wayToPizza = dijkstra(startNode, pizzaNode);
             startNode = state.getCurrentNode();
         }
         List<Node> wayOut = dijkstra(startNode, exitNode);
@@ -169,6 +169,17 @@ public class Explorer {
             }
         }
         return;
+    }
+
+    private Node checkForPizza(Collection<Node> theGraph) {
+        Node pizzaNode = null;
+        for (Node n : theGraph) {
+            if (n.getTile().getGold() == 5000) {
+                pizzaNode = n;
+                System.out.println("Found pizza!");
+            }
+        }
+        return pizzaNode;
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
