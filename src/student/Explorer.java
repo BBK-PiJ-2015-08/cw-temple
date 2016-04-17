@@ -122,40 +122,16 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
-
         Collection<Node> theGraph = state.getVertices();
-        //while (!state.getCurrentNode().equals(exitNode)) {
-            checkForGold(state, theGraph, startNode, exitNode);
-        //}
-        /**
-        while (highestOrNull != null) {
-            //5
-            moveToHighest(state, startNode, highestOrNull);
-            startNode = state.getCurrentNode();
-            //9
-            highestOrNull = checkForGold(state, theGraph, startNode);
-        }
-        */
-        /**
-        startNode = state.getCurrentNode();
-        List<Node> wayOut = dijkstra(startNode, exitNode);
-        wayOut.remove(0);
-        System.out.println("Way out size: " + wayOut.size());
-        for (Node f : wayOut) {
-            state.moveTo(f);
-            if (f.getTile().getGold() > 0) {
-                state.pickUpGold();
-            }
-        }
-         */
+        checkForGold(state, theGraph, startNode, exitNode);
         System.out.println("He thinks hes left");
         return;
     }
 
     private void checkForGold(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
-        //if (state.getCurrentNode().equals(exitNode)) {
-        //    return;
-        //}
+        if (state.getCurrentNode().equals(exitNode)) {
+            return;
+        }
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
         if (state.getTimeRemaining() - 700 < checkWayOut.size()) {
             if (state.getCurrentNode().equals(exitNode)) {
