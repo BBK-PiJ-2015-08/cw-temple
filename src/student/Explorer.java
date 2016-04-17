@@ -210,6 +210,11 @@ public class Explorer {
         return findWayOut(openList.peek(), totalCost);
     }
 
+    /**
+     * @param end
+     * @param totalCost Must contain information about the path
+     * @return The path from current node to target node (end or highest gold)
+     */
     private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
         List<Node> wayOut = new ArrayList<Node>();
         Node n = end;
