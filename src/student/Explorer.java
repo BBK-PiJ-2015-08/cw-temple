@@ -200,7 +200,6 @@ public class Explorer {
                 }
             }
             while (highestOrNull != null) {
-                //moveToHighest(state, startNode, highestOrNull);
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
                 wayToHighest.remove(0);
                 for (Node f : wayToHighest) {
@@ -211,11 +210,8 @@ public class Explorer {
                     theGraph = state.getVertices();
                     checkForGold(state, theGraph, f, exitNode);
                 }
-                //startNode = state.getCurrentNode();
-                //highestOrNull = checkForGold(state, theGraph, startNode, exitNode);
             }
         }
-        //return highestOrNull;
     }
 
     private void moveToHighest(EscapeState state, Node startNode, Node highestOrNull) {
