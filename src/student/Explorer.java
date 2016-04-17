@@ -132,7 +132,6 @@ public class Explorer {
             sumOfCosts = sumOfCosts + checkLength.length;
         }
         //Almost totally sure this is reducing my score
-        System.out.println("sumOfCosts is: " + sumOfCosts);
         if (state.getTimeRemaining() - sumOfCosts < sumOfCosts) {
             if (state.getCurrentNode().equals(exitNode)) {
                 return;
