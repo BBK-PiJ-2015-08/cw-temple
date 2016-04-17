@@ -147,6 +147,18 @@ public class Explorer {
          */
         Node startNode = state.getCurrentNode();
         Node exitNode = state.getExit();
+        boolean pizza = false;
+        Collection<Node> theGraph = state.getVertices();
+        for (Node n : theGraph) {
+            if (n.getTile().getGold() == 5000) {
+                pizza = true;
+                Node pizzaNode = n;
+            }
+        }
+        if (pizza) {
+            List<Node> wayToPizza = dijkstra(startNode, pizzaNode);
+            startNode = state.getCurrentNode();
+        }
         List<Node> wayOut = dijkstra(startNode, exitNode);
         wayOut.remove(0);
         System.out.println("Way out size: " + wayOut.size());
