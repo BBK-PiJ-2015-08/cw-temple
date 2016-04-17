@@ -178,7 +178,10 @@ public class Explorer {
         //If I use 300 in below, fail to end at the stairs.
         //350 fails
         //Running TXTMain 100 times, 400 sometimes fails
-        if (state.getTimeRemaining() < 400) {
+        //500 sometimes fails
+        //600 sometimes fails
+        //700 succeeds but I feel this is not smart
+        if (state.getTimeRemaining() < 700) {
             highestOrNull = null;
         }
         return highestOrNull;
