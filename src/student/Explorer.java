@@ -62,26 +62,6 @@ public class Explorer {
         greedy(state, visited, state.getCurrentLocation());
     }
 
-    public void depthFirst (ExplorationState state, List<NodeStatus> visited, long startLocation) {
-        int distance = Integer.MAX_VALUE;
-        long currentLocation = state.getCurrentLocation();
-        Collection<NodeStatus> nbs = state.getNeighbours();
-        for (NodeStatus nb : nbs) {
-            if (!visited.contains(nb)) {
-                visited.add(nb);
-                state.moveTo(nb.getId());
-                if (state.getDistanceToTarget() == 0) {
-                    System.out.println("You have found the orb!");
-                    break;
-                }
-                depthFirst(state, visited, currentLocation);
-            }
-        }
-        if (visited.containsAll(nbs)) {
-            state.moveTo(startLocation);
-        }
-    }
-
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
         //Best-case: 1.3 bonus multiplier. Worst-case: 1.0.
         if (state.getDistanceToTarget() == 0) {
