@@ -124,9 +124,9 @@ public class Explorer {
         Node exitNode = state.getExit();
 
         Collection<Node> theGraph = state.getVertices();
-        while (!state.getCurrentNode().equals(exitNode)) {
+        //while (!state.getCurrentNode().equals(exitNode)) {
             checkForGold(state, theGraph, startNode, exitNode);
-        }
+        //}
         /**
         while (highestOrNull != null) {
             //5
@@ -195,7 +195,7 @@ public class Explorer {
                         state.pickUpGold();
                     }
                     theGraph = state.getVertices();
-                    //checkForGold(state, theGraph, f, exitNode);
+                    checkForGold(state, theGraph, f, exitNode);
                 }
             }
         }
