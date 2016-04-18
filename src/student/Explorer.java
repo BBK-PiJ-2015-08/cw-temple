@@ -61,7 +61,7 @@ public class Explorer {
      * @param visited Nodes already considered
      * @param startLocation Location of start point for this method call
      */
-    public void greedy(ExplorationState state, List<NodeStatus> visited,
+    private void greedy(ExplorationState state, List<NodeStatus> visited,
                        long startLocation) {
         if (state.getDistanceToTarget() == 0) {
             return;
