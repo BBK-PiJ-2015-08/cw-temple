@@ -50,7 +50,7 @@ public class Explorer {
      * @param state the information available at the current state
      */
     public void explore(ExplorationState state) {
-        List<NodeStatus> visited = new ArrayList<NodeStatus>();
+        List<NodeStatus> visited = new ArrayList<>();
         greedy(state, visited, state.getCurrentLocation());
     }
 
@@ -229,7 +229,7 @@ public class Explorer {
      */
     private List<Node> dijkstra(Node startNode, Node end, EscapeState state) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, NodeData> nodeData = new HashMap<Node, NodeData>();
+        HashMap<Node, NodeData> nodeData = new HashMap<>();
         openList.add(startNode, 0);
         nodeData.put(startNode, new NodeData());
         while (!openList.isEmpty() && openList.peek() != end) {
