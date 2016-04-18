@@ -17,6 +17,9 @@ import java.util.Set;
  * @author Jade Dickinson BBK-PiJ-2015-08
  */
 public class Explorer {
+    /**
+     * Used in comparison between time remaining and cost to the exit.
+     */
     private static final int TIMECOMPARISON = 1369;
     /**
      * Explore the cavern, trying to find the orb in as few steps as possible.
