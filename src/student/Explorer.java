@@ -259,6 +259,7 @@ public class Explorer {
             while (!state.getCurrentNode().equals(state.getExit())) {
                 visitAnother(state);
             }
+            //noFurther is a dummy list, only used to return out of this method.
             List<Node> noFurther = new ArrayList<>();
             return noFurther;
         }
