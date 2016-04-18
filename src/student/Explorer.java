@@ -151,18 +151,30 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
                 }
             }
-        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
-        List<Node> bothPaths = new ArrayList<>();
+        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
+        checkWayOut.remove(0);
 
+        int costToTarget = 0;
+        int costTargetToExit = 0;
+        for (int i = 0; i+1 < checkWayTarget.size(); i++) {
+            Edge checkLength = checkWayTarget.get(i).getEdge(checkWayTarget.get(i+1));
+            costToTarget = costToTarget + checkLength.length;
+        }
+        for (int i = 0; i+1 < checkWayOut.size(); i++) {
+            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
+            costTargetToExit = costTargetToExit + checkLength.length;
+        }
 
-
+        int totalCosts = costToTarget + costTargetToExit;
+/**
         int sumOfCosts = 0;
         for (int i = 0; i+1 < bothPaths.size(); i++) {
             Edge checkLength = bothPaths.get(i).getEdge(bothPaths.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
-        if (state.getTimeRemaining() - TIMECOMPARISON < sumOfCosts) {
+ */
+        if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             for (int i = 0; i < escapeNow.size(); i++) {
