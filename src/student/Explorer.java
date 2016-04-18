@@ -153,21 +153,7 @@ public class Explorer {
         }
 
         //This should be its own method
-        List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
-        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
-        checkWayOut.remove(0);
-
-        int costToTarget = 0;
-        int costTargetToExit = 0;
-        for (int i = 0; i+1 < checkWayTarget.size(); i++) {
-            Edge checkLength = checkWayTarget.get(i).getEdge(checkWayTarget.get(i+1));
-            costToTarget = costToTarget + checkLength.length;
-        }
-        for (int i = 0; i+1 < checkWayOut.size(); i++) {
-            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
-            costTargetToExit = costTargetToExit + checkLength.length;
-        }
-        int totalCosts = costToTarget + costTargetToExit;
+        int totalCosts = combinedCosts(state.getCurrentNode(), highestOrNull, exitNode);
         //Up to here.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
@@ -199,6 +185,24 @@ public class Explorer {
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         }
+    }
+
+    private int combinedCosts(Node startNode, Node highestOrNull, Node exitNode) {
+        List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
+        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
+        checkWayOut.remove(0);
+
+        int costToTarget = 0;
+        int costTargetToExit = 0;
+        for (int i = 0; i+1 < checkWayTarget.size(); i++) {
+            Edge checkLength = checkWayTarget.get(i).getEdge(checkWayTarget.get(i+1));
+            costToTarget = costToTarget + checkLength.length;
+        }
+        for (int i = 0; i+1 < checkWayOut.size(); i++) {
+            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
+            costTargetToExit = costTargetToExit + checkLength.length;
+        }
+        return costToTarget + costTargetToExit;
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
