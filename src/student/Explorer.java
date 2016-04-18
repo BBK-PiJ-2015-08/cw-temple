@@ -164,17 +164,17 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
                 }
             }
-                List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
-                wayToHighest.remove(0);
-                for (int i = 0; i < wayToHighest.size(); i++) {
-                    Node f = wayToHighest.get(i);
-                    wayToHighest.remove(f);
-                    state.moveTo(f);
-                    if (f.getTile().getGold() > 0) {
-                        state.pickUpGold();
-                    }
-                    theGraph = state.getVertices();
-                    seekGoldOrExit(state, theGraph, f, exitNode);
+            List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+            wayToHighest.remove(0);
+            for (int i = 0; i < wayToHighest.size(); i++) {
+                Node f = wayToHighest.get(i);
+                wayToHighest.remove(f);
+                state.moveTo(f);
+                if (f.getTile().getGold() > 0) {
+                    state.pickUpGold();
+                }
+                theGraph = state.getVertices();
+                seekGoldOrExit(state, theGraph, f, exitNode);
             }
         }
     }
