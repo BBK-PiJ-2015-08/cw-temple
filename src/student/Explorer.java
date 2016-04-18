@@ -173,10 +173,10 @@ public class Explorer {
             for (int i = 0; i < wayToHighest.size(); i++) {
                 Node nxt = wayToHighest.get(i);
                 wayToHighest.remove(nxt);
-                state.moveTo(nxt);
-                if (nxt.getTile().getGold() > 0) {
+                if (state.getCurrentNode().getTile().getGold() > 0) {
                     state.pickUpGold();
                 }
+                state.moveTo(nxt);
                 theGraph = state.getVertices();
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
