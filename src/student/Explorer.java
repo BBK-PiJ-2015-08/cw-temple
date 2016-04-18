@@ -181,20 +181,20 @@ public class Explorer {
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, totalCost> totalCost = new HashMap<Node, totalCost>();
+        HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
-        totalCost.put(startNode, new totalCost());
+        NodeData.put(startNode, new NodeData());
         while (!openList.isEmpty() && openList.peek() != exitNode) {
             Node currentNode = openList.poll();
-            totalCost currentCost = totalCost.get(currentNode);
+            NodeData currentCost = NodeData.get(currentNode);
             Set<Edge> escapeEdges = currentNode.getExits();
             for (Edge ed : escapeEdges) {
                 Node w = ed.getOther(currentNode);
-                totalCost wCost = totalCost.get(w);
+                NodeData wCost = NodeData.get(w);
                 double wDistance = currentCost.distance + ed.length;
                 if (wCost == null) {
                     openList.add(w, wDistance);
-                    totalCost.put(w, new totalCost(currentNode, wDistance));
+                    NodeData.put(w, new NodeData(currentNode, wDistance));
                 }
                 else {
                     if (wDistance < wCost.distance) {
@@ -205,33 +205,33 @@ public class Explorer {
                 }
             }
         }
-        return findWayOut(openList.peek(), totalCost);
+        return findWayOut(openList.peek(), NodeData);
     }
 
     /**
      * @param end
-     * @param totalCost Must contain information about the path
+     * @param NodeData Must contain information about the path
      * @return The path from current node to target node (end or highest gold)
      */
-    private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
+    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> NodeData) {
         List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
-            n = totalCost.get(n).prev;
+            n = NodeData.get(n).prev;
         }
         Collections.reverse(wayOut);
         return wayOut;
     }
 
-    private static class totalCost {
+    private static class NodeData {
         private Node prev;
         private double distance;
-        private totalCost(Node n, double dist) {
+        private NodeData(Node n, double dist) {
             prev = n;
             distance = dist;
         }
-        private totalCost() {
+        private NodeData() {
         }
     }
 
