@@ -13,4 +13,4 @@ Additional methods in Explorer.java
 * dijkstra() - Returns the path from startNode to end (our current target).
 * visitAnother() - Used to handle some extreme edge cases; just moves to a random node. Called recursively by dijkstra() while current node isn't equal to exit.
 * findWayOut() - Returns the path from current node to target node (end or highest gold).
-*Explorer.java contains a nested inner class, NodeData. For a given Node, a NodeData object holds information about the previous node on a path to this Node and the distance from the start node in the path to this node.
+* Explorer.java contains a nested inner class, NodeData. For a given Node, a NodeData object holds information about the previous node on a path to this Node and the distance from the start node in the path to this node.
