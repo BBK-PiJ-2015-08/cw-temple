@@ -47,7 +47,7 @@ public class Explorer {
      * @param state the information available at the current state
      */
 
-    private final int TIMECOMPARISON = 1369;
+    private static final int TIMECOMPARISON = 1369;
 
     public void explore(ExplorationState state) {
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
