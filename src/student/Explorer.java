@@ -153,10 +153,10 @@ public class Explorer {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             for (Node nxt : escapeNow) {
-                state.moveTo(nxt);
-                if (nxt.getTile().getGold() > 0) {
+                if (state.getCurrentNode().getTile().getGold() > 0) {
                     state.pickUpGold();
                 }
+                state.moveTo(nxt);
             }
         }
         else {
