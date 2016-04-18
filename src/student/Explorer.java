@@ -157,10 +157,10 @@ public class Explorer {
             }
         }
         int totalCosts = totalCosts(state.getCurrentNode(), highestOrNull,
-                exitNode);
+                exitNode, state);
         //Time running out; move towards exit.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
-            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
+            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode, state);
             escapeNow.remove(0);
             for (int i = 0; i < escapeNow.size(); i++) {
                 Node nxt = escapeNow.get(i);
@@ -172,11 +172,12 @@ public class Explorer {
                     state.pickUpGold();
                 }
                 state.moveTo(nxt);
+
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         } else {
             //Time remains to treasure hunt; move towards highest gold.
-            List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+            List<Node> wayToHighest = dijkstra(startNode, highestOrNull, state);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
                 Node nxt = wayToHighest.get(i);
@@ -197,10 +198,12 @@ public class Explorer {
      * @return An integer representing the total cost of moving to the current
      * highest gold and then moving to the exit.
      */
-    private int totalCosts(Node startNode, Node highestOrNull, Node exitNode) {
-        List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
-        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
-        checkWayOut.remove(0);
+    private int totalCosts(Node startNode, Node highestOrNull, Node exitNode, EscapeState state) {
+        List<Node> checkWayTarget = dijkstra(startNode, highestOrNull, state);
+        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode, state);
+        if(!checkWayOut.isEmpty()) {
+            checkWayOut.remove(0);
+        }
         int costToTarget = 0;
         int costTargetToExit = 0;
         for (int i = 0; i + 1 < checkWayTarget.size(); i++) {
@@ -221,7 +224,7 @@ public class Explorer {
      * @param end The Node we are using dijkstra() to seek a path to.
      * @return The path from startNode to end (our current target).
      */
-    private List<Node> dijkstra(Node startNode, Node end) {
+    private List<Node> dijkstra(Node startNode, Node end, EscapeState state) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
@@ -229,28 +232,37 @@ public class Explorer {
         while (!openList.isEmpty() && openList.peek() != end) {
             Node currentNode = openList.poll();
             NodeData currentData = NodeData.get(currentNode);
-            Set<Edge> escapeEdges = currentNode.getExits();
-            for (Edge ed : escapeEdges) {
-                Node w = ed.getOther(currentNode);
-                NodeData wData = NodeData.get(w);
-                double wDistance = currentData.distance + ed.length;
-                if (wData == null) {
-                    openList.add(w, wDistance);
-                    NodeData.put(w, new NodeData(currentNode, wDistance));
-                } else {
-                    if (wDistance < wData.distance) {
-                        openList.updatePriority(w, wDistance);
-                        wData.distance = wDistance;
-                        wData.prev = currentNode;
+            if (state.getCurrentNode().equals(state.getExit())) {
+                List<Node> noFurther = new ArrayList<>();
+                return noFurther;
+            }
+            else {
+                Set<Edge> escapeEdges = currentNode.getExits();
+                for (Edge ed : escapeEdges) {
+                    Node w = ed.getOther(currentNode);
+                    NodeData wData = NodeData.get(w);
+                    double wDistance = currentData.distance + ed.length;
+                    if (wData == null) {
+                        openList.add(w, wDistance);
+                        NodeData.put(w, new NodeData(currentNode, wDistance));
+                    } else {
+                        if (wDistance < wData.distance) {
+                            openList.updatePriority(w, wDistance);
+                            wData.distance = wDistance;
+                            wData.prev = currentNode;
+                        }
                     }
                 }
             }
         }
-
         if (openList.isEmpty()) {
-            return new ArrayList<Node>();
+            state.moveTo(state.getExit());
+            List<Node> noFurther = new ArrayList<>();
+            return noFurther;
         }
-        return findWayOut(openList.peek(), NodeData);
+        else {
+            return findWayOut(openList.peek(), NodeData);
+        }
     }
 
     /**
