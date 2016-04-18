@@ -1,6 +1,8 @@
 ### PiJ Coursework 4 - George Osborne and the Temple of Gloom
 Jade Dickinson : BBK-PiJ-2015-08 : jdicki04
+
 Did not work as part of a pair.
+
 As an aside, please try watching him run the maze at top speed while listening
 to "Flight of the Bumblebee". You will not regret this.
 
