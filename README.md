@@ -4,9 +4,13 @@ As an aside, please try watching him run the maze at top speed while listening
 to "Flight of the Bumblebee". You will not regret this.
 
 Additional methods in Explorer.java
+
 public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation)
+
 private void seekGoldOrExit(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode)
+
 private List<Node> dijkstra(Node startNode, Node exitNode)
+
 private List<Node> findWayOut(Node end, HashMap<Node, NodeData> nodeData)
 
 Explorer.java contains a nested inner class, NodeData. For a given Node, a
