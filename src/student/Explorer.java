@@ -59,7 +59,8 @@ public class Explorer {
      * @param visited Nodes already considered
      * @param startLocation Location of start point for this method call
      */
-    public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
+    public void greedy(ExplorationState state, List<NodeStatus> visited,
+                       long startLocation) {
         if (state.getDistanceToTarget() == 0) {
             return;
         }
@@ -70,13 +71,13 @@ public class Explorer {
             unsorted.add(n);
         }
         Collections.sort(unsorted, (o1, o2) -> {
-            if(o1.getDistanceToTarget() == o2.getDistanceToTarget()) {
+            if (o1.getDistanceToTarget() == o2.getDistanceToTarget()) {
                 return 0;
             }
             return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
         });
-        Collection<NodeStatus> sortedNbs = unsorted;
-        for (NodeStatus nb : sortedNbs) {
+        Collection<NodeStatus> sortedNs = unsorted;
+        for (NodeStatus nb : sortedNs) {
             if (!visited.contains(nb)) {
                 visited.add(nb);
                 if (state.getDistanceToTarget() != 0) {
@@ -85,7 +86,7 @@ public class Explorer {
                 }
             }
         }
-        if (visited.containsAll(sortedNbs) && state.getDistanceToTarget() != 0) {
+        if (visited.containsAll(sortedNs) && state.getDistanceToTarget() != 0) {
             state.moveTo(startLocation);
         }
     }
@@ -121,7 +122,7 @@ public class Explorer {
     public void escape(EscapeState state) {
         Node startNode = state.getCurrentNode();
         final Node exitNode = state.getExit();
-        Collection<Node> theGraph = state.getVertices();
+        final Collection<Node> theGraph = state.getVertices();
         seekGoldOrExit(state, theGraph, startNode, exitNode);
         return;
     }
@@ -139,7 +140,9 @@ public class Explorer {
      * @param startNode the start point for this use of seekGoldOrExit
      * @param exitNode the final Node exitNode from escape()
      */
-    private void seekGoldOrExit(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode) {
+    private void seekGoldOrExit(EscapeState state,
+                                final Collection<Node> theGraph,
+                                Node startNode, Node exitNode) {
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
@@ -151,7 +154,8 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
             }
         }
-        int totalCosts = combinedCosts(state.getCurrentNode(), highestOrNull, exitNode);
+        int totalCosts = totalCosts(state.getCurrentNode(), highestOrNull,
+                exitNode);
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
@@ -167,8 +171,7 @@ public class Explorer {
                 state.moveTo(nxt);
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
-        }
-        else {
+        } else {
             List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
@@ -190,23 +193,30 @@ public class Explorer {
      * @return An integer representing the total cost of moving to the current
      * highest gold and then moving to the exit
      */
-    private int combinedCosts(Node startNode, Node highestOrNull, Node exitNode) {
+    private int totalCosts(Node startNode, Node highestOrNull, Node exitNode) {
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
         List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
         checkWayOut.remove(0);
         int costToTarget = 0;
         int costTargetToExit = 0;
-        for (int i = 0; i+1 < checkWayTarget.size(); i++) {
-            Edge checkLength = checkWayTarget.get(i).getEdge(checkWayTarget.get(i+1));
+        for (int i = 0; i + 1 < checkWayTarget.size(); i++) {
+            Edge checkLength =
+                    checkWayTarget.get(i).getEdge(checkWayTarget.get(i + 1));
             costToTarget = costToTarget + checkLength.length;
         }
-        for (int i = 0; i+1 < checkWayOut.size(); i++) {
-            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
+        for (int i = 0; i + 1 < checkWayOut.size(); i++) {
+            Edge checkLength =
+                    checkWayOut.get(i).getEdge(checkWayOut.get(i + 1));
             costTargetToExit = costTargetToExit + checkLength.length;
         }
         return costToTarget + costTargetToExit;
     }
 
+    /**
+     * @param startNode The Node we are using dijkstra() to seek a path from.
+     * @param exitNode The Node we are using dijkstra() to seek a path to.
+     * @return The path from startNode to exitNode.
+     */
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, NodeData> nodeData = new HashMap<Node, NodeData>();
@@ -223,8 +233,7 @@ public class Explorer {
                 if (wCost == null) {
                     openList.add(w, wDistance);
                     nodeData.put(w, new NodeData(currentNode, wDistance));
-                }
-                else {
+                } else {
                     if (wDistance < wCost.distance) {
                         openList.updatePriority(w, wDistance);
                         wCost.distance = wDistance;
@@ -237,7 +246,7 @@ public class Explorer {
     }
 
     /**
-     * @param end
+     * @param end The end of the path this method returns to dijkstra()
      * @param nodeData Must contain information about the path
      * @return The path from current node to target node (end or highest gold)
      */
@@ -263,13 +272,22 @@ public class Explorer {
          */
         private Node prev;
         /**
-         * distance holds distance in path from start node to this node
+         * Distance holds distance in path from start node to this node.
          */
         private double distance;
+
+        /**
+         * @param n The previous node.
+         * @param dist The distance from the previous to this node.
+         */
         private NodeData(Node n, double dist) {
             prev = n;
             distance = dist;
         }
+
+        /**
+         * Default constructor with no parameters.
+         */
         private NodeData() {
         }
     }
