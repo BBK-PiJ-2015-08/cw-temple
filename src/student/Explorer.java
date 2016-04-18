@@ -315,11 +315,11 @@ public class Explorer {
         /**
          * prev Holds the previous node on a path to this node.
          */
-        private static Node prev;
+        private Node prev;
         /**
          * Distance holds distance in path from start node to this node.
          */
-        private static double distance;
+        private double distance;
 
         /**
          * @param n The previous node.
