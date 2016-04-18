@@ -172,7 +172,6 @@ public class Explorer {
                     state.pickUpGold();
                 }
                 state.moveTo(nxt);
-
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         } else {
@@ -276,10 +275,16 @@ public class Explorer {
     private void visitAnother(EscapeState state) {
         Set<Node> edgesOut = state.getCurrentNode().getNeighbours();
         if (edgesOut.contains(state.getExit())) {
+            if (state.getCurrentNode().getTile().getGold() > 0) {
+                state.pickUpGold();
+            }
             state.moveTo(state.getExit());
             return;
         } else {
             for (Node e : edgesOut) {
+                if (state.getCurrentNode().getTile().getGold() > 0) {
+                    state.pickUpGold();
+                }
                 state.moveTo(e);
                 return;
             }
