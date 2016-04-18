@@ -50,7 +50,7 @@ public class Explorer {
     private static final int TIMECOMPARISON = 1369;
 
     public void explore(ExplorationState state) {
-        List<NodeStatus> visited = new ArrayList<NodeStatus>();
+        final List<NodeStatus> visited = new ArrayList<NodeStatus>();
         greedy(state, visited, state.getCurrentLocation());
     }
 
@@ -58,9 +58,9 @@ public class Explorer {
         if (state.getDistanceToTarget() == 0) {
             return;
         }
-        long currentLocation = state.getCurrentLocation();
-        Collection<NodeStatus> nbs = state.getNeighbours();
-        List<NodeStatus> unsorted = new ArrayList<>();
+        final long currentLocation = state.getCurrentLocation();
+        final Collection<NodeStatus> nbs = state.getNeighbours();
+        final List<NodeStatus> unsorted = new ArrayList<>();
         for (NodeStatus n : nbs) {
             unsorted.add(n);
         }
@@ -70,7 +70,7 @@ public class Explorer {
             }
             return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
         });
-        Collection<NodeStatus> sortedNbs = unsorted;
+        final Collection<NodeStatus> sortedNbs = unsorted;
         for (NodeStatus nb : sortedNbs) {
             if (!visited.contains(nb)) {
                 visited.add(nb);
@@ -114,9 +114,9 @@ public class Explorer {
      * @param state the information available at the current state
      */
     public void escape(EscapeState state) {
-        Node startNode = state.getCurrentNode();
+        final Node startNode = state.getCurrentNode();
         final Node exitNode = state.getExit();
-        Collection<Node> theGraph = state.getVertices();
+        final Collection<Node> theGraph = state.getVertices();
         seekGoldOrExit(state, theGraph, startNode, exitNode);
         return;
     }
@@ -143,11 +143,11 @@ public class Explorer {
         List<Node> checkWayOut = dijkstra(startNode, exitNode);
         int sumOfCosts = 0;
         for (int i = 0; i+1 < checkWayOut.size(); i++) {
-            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
+            final Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
         if (state.getTimeRemaining() - TIMECOMPARISON < sumOfCosts) {
-            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
+            final List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             for (Node f : escapeNow) {
                 state.moveTo(f);
@@ -165,10 +165,10 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
                 }
             }
-            List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
+            final List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
-                Node f = wayToHighest.get(i);
+                final Node f = wayToHighest.get(i);
                 wayToHighest.remove(f);
                 state.moveTo(f);
                 if (f.getTile().getGold() > 0) {
@@ -181,18 +181,18 @@ public class Explorer {
     }
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
-        PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
+        final PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
+        final HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
         NodeData.put(startNode, new NodeData());
         while (!openList.isEmpty() && openList.peek() != exitNode) {
-            Node currentNode = openList.poll();
-            NodeData currentCost = NodeData.get(currentNode);
-            Set<Edge> escapeEdges = currentNode.getExits();
+            final Node currentNode = openList.poll();
+            final NodeData currentCost = NodeData.get(currentNode);
+            final Set<Edge> escapeEdges = currentNode.getExits();
             for (Edge ed : escapeEdges) {
-                Node w = ed.getOther(currentNode);
-                NodeData wCost = NodeData.get(w);
-                double wDistance = currentCost.distance + ed.length;
+                final Node w = ed.getOther(currentNode);
+                final NodeData wCost = NodeData.get(w);
+                final double wDistance = currentCost.distance + ed.length;
                 if (wCost == null) {
                     openList.add(w, wDistance);
                     NodeData.put(w, new NodeData(currentNode, wDistance));
@@ -215,7 +215,7 @@ public class Explorer {
      * @return The path from current node to target node (end or highest gold)
      */
     private List<Node> findWayOut(Node end, HashMap<Node, NodeData> NodeData) {
-        List<Node> wayOut = new ArrayList<>();
+        final List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
