@@ -199,10 +199,11 @@ public class Explorer {
      * @return An integer representing the total cost of moving to the current
      * highest gold and then moving to the exit.
      */
-    private int totalCosts(Node startNode, Node highest, Node exitNode, EscapeState state) {
+    private int totalCosts(Node startNode,
+                           Node highest, Node exitNode, EscapeState state) {
         List<Node> checkWayTarget = dijkstra(startNode, highest, state);
         List<Node> checkWayOut = dijkstra(highest, exitNode, state);
-        if(!checkWayOut.isEmpty()) {
+        if (!checkWayOut.isEmpty()) {
             checkWayOut.remove(0);
         }
         int costToTarget = 0;
@@ -223,6 +224,7 @@ public class Explorer {
     /**
      * @param startNode The Node we are using dijkstra() to seek a path from.
      * @param end The Node we are using dijkstra() to seek a path to.
+     * @param state The EscapeState we are working with
      * @return The path from startNode to end (our current target).
      */
     private List<Node> dijkstra(Node startNode, Node end, EscapeState state) {
@@ -261,7 +263,7 @@ public class Explorer {
             //Return a dummy list, only used to return out of this method.
             return new ArrayList<>();
         } else {
-            return findWayOut(openList.peek(), NodeData);
+            return findWayOut(openList.peek(), nodeData);
         }
     }
 
@@ -311,7 +313,7 @@ public class Explorer {
      * node on a path to it, and the distance from the start node in the path to
      * this node.
      */
-    private static class NodeData {
+    private static final class NodeData {
         /**
          * prev Holds the previous node on a path to this node.
          */
