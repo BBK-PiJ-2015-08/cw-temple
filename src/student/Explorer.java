@@ -164,7 +164,6 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
                 }
             }
-            while (currentHighest > 0) {
                 List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
                 wayToHighest.remove(0);
                 for (int i = 0; i < wayToHighest.size(); i++) {
@@ -176,7 +175,6 @@ public class Explorer {
                     }
                     theGraph = state.getVertices();
                     seekGoldOrExit(state, theGraph, f, exitNode);
-                }
             }
         }
     }
@@ -216,7 +214,7 @@ public class Explorer {
      * @return The path from current node to target node (end or highest gold)
      */
     private List<Node> findWayOut(Node end, HashMap<Node, totalCost> totalCost) {
-        List<Node> wayOut = new ArrayList<Node>();
+        List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
