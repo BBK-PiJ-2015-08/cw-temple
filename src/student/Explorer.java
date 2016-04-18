@@ -256,13 +256,30 @@ public class Explorer {
             }
         }
         if (openList.isEmpty()) {
-            state.moveTo(state.getExit());
+            while (!state.getCurrentNode().equals(state.getExit())) {
+                visitAnother(state);
+            }
+            //state.moveTo(state.getExit());
             List<Node> noFurther = new ArrayList<>();
             return noFurther;
         }
         else {
             return findWayOut(openList.peek(), NodeData);
         }
+    }
+
+    private void visitAnother(EscapeState state) {
+        Set<Node> edgesOut = state.getCurrentNode().getNeighbours();
+        for (Node e : edgesOut) {
+            state.moveTo(e);
+        }
+        /**
+        Set<Node> edgesOutTwo = state.getCurrentNode().getNeighbours();
+        for (Node n : edgesOutTwo) {
+            state.moveTo(n);
+
+        }
+        */
     }
 
     /**
