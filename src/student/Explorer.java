@@ -160,7 +160,8 @@ public class Explorer {
                 exitNode, state);
         //Time running out; move towards exit.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
-            final List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode, state);
+            final List<Node> escapeNow =
+                    dijkstra(state.getCurrentNode(), exitNode, state);
             escapeNow.remove(0);
             for (int i = 0; i < escapeNow.size(); i++) {
                 Node nxt = escapeNow.get(i);
@@ -197,7 +198,8 @@ public class Explorer {
      * @return An integer representing the total cost of moving to the current
      * highest gold and then moving to the exit.
      */
-    private int totalCosts(Node startNode, Node highest, Node exitNode, EscapeState state) {
+    private int totalCosts
+    (Node startNode, Node highest, Node exitNode, EscapeState state) {
         List<Node> checkWayTarget = dijkstra(startNode, highest, state);
         List<Node> checkWayOut = dijkstra(highest, exitNode, state);
         if(!checkWayOut.isEmpty()) {
@@ -292,15 +294,15 @@ public class Explorer {
 
     /**
      * @param end The end of the path this method returns to dijkstra()
-     * @param NodeData Must contain information about the path
+     * @param nodeData Must contain information about the path
      * @return The path from current node to target node (end or highest gold).
      */
-    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> NodeData) {
+    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> nodeData) {
         List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
-            n = NodeData.get(n).prev;
+            n = nodeData.get(n).prev;
         }
         Collections.reverse(wayOut);
         return wayOut;
