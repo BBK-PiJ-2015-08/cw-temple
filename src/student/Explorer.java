@@ -195,11 +195,11 @@ public class Explorer {
      * @param startNode the start point for this use of seekGoldOrExit
      * @param highest The Node with the current highest gold (or pizza)
      * @param exitNode The final Node exitNode from escape()
+     * @param state The EscapeState we are working with
      * @return An integer representing the total cost of moving to the current
      * highest gold and then moving to the exit.
      */
-    private int totalCosts
-    (Node startNode, Node highest, Node exitNode, EscapeState state) {
+    private int totalCosts(Node startNode, Node highest, Node exitNode, EscapeState state) {
         List<Node> checkWayTarget = dijkstra(startNode, highest, state);
         List<Node> checkWayOut = dijkstra(highest, exitNode, state);
         if(!checkWayOut.isEmpty()) {
