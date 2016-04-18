@@ -223,43 +223,47 @@ public class Explorer {
      */
     private List<Node> dijkstra(Node startNode, Node end) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, NodeData> nodeData = new HashMap<Node, NodeData>();
+        HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
-        nodeData.put(startNode, new NodeData());
+        NodeData.put(startNode, new NodeData());
         while (!openList.isEmpty() && openList.peek() != end) {
             Node currentNode = openList.poll();
-            NodeData currentCost = nodeData.get(currentNode);
+            NodeData currentData = NodeData.get(currentNode);
             Set<Edge> escapeEdges = currentNode.getExits();
             for (Edge ed : escapeEdges) {
                 Node w = ed.getOther(currentNode);
-                NodeData wCost = nodeData.get(w);
-                double wDistance = currentCost.distance + ed.length;
-                if (wCost == null) {
+                NodeData wData = NodeData.get(w);
+                double wDistance = currentData.distance + ed.length;
+                if (wData == null) {
                     openList.add(w, wDistance);
-                    nodeData.put(w, new NodeData(currentNode, wDistance));
+                    NodeData.put(w, new NodeData(currentNode, wDistance));
                 } else {
-                    if (wDistance < wCost.distance) {
+                    if (wDistance < wData.distance) {
                         openList.updatePriority(w, wDistance);
-                        wCost.distance = wDistance;
-                        wCost.prev = currentNode;
+                        wData.distance = wDistance;
+                        wData.prev = currentNode;
                     }
                 }
             }
         }
-        return findWayOut(openList.peek(), nodeData);
+
+        if (openList.isEmpty()) {
+            return new ArrayList<Node>();
+        }
+        return findWayOut(openList.peek(), NodeData);
     }
 
     /**
      * @param end The end of the path this method returns to dijkstra()
-     * @param nodeData Must contain information about the path
+     * @param NodeData Must contain information about the path
      * @return The path from current node to target node (end or highest gold).
      */
-    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> nodeData) {
+    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> NodeData) {
         List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
-            n = nodeData.get(n).prev;
+            n = NodeData.get(n).prev;
         }
         Collections.reverse(wayOut);
         return wayOut;
