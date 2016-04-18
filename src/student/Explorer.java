@@ -18,6 +18,7 @@ import java.util.Set;
  * @author Jade Dickinson BBK-PiJ-2015-08
  */
 public class Explorer {
+    private static final int TIMECOMPARISON = 1369;
     /**
      * Explore the cavern, trying to find the orb in as few steps as possible.
      * Once you find the orb, you must return from the function in order to pick
@@ -46,14 +47,16 @@ public class Explorer {
      *
      * @param state the information available at the current state
      */
-
-    private static final int TIMECOMPARISON = 1369;
-
     public void explore(ExplorationState state) {
         final List<NodeStatus> visited = new ArrayList<NodeStatus>();
         greedy(state, visited, state.getCurrentLocation());
     }
 
+    /**
+     * @param state The EscapeState
+     * @param visited Nodes already considered
+     * @param startLocation Location of start point for this method call
+     */
     public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation) {
         if (state.getDistanceToTarget() == 0) {
             return;
@@ -209,15 +212,15 @@ public class Explorer {
 
     /**
      * @param end
-     * @param NodeData Must contain information about the path
+     * @param nodeData Must contain information about the path
      * @return The path from current node to target node (end or highest gold)
      */
-    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> NodeData) {
+    private List<Node> findWayOut(Node end, HashMap<Node, NodeData> nodeData) {
         final List<Node> wayOut = new ArrayList<>();
         Node n = end;
         while (n != null) {
             wayOut.add(n);
-            n = NodeData.get(n).prev;
+            n = nodeData.get(n).prev;
         }
         Collections.reverse(wayOut);
         return wayOut;
