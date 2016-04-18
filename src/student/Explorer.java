@@ -232,8 +232,7 @@ public class Explorer {
             Node currentNode = openList.poll();
             NodeData currentData = NodeData.get(currentNode);
             if (state.getCurrentNode().equals(state.getExit())) {
-                final List<Node> noFurther = new ArrayList<>();
-                return noFurther;
+                return new ArrayList<>();
             }
             else {
                 Set<Edge> escapeEdges = currentNode.getExits();
@@ -258,9 +257,8 @@ public class Explorer {
             while (!state.getCurrentNode().equals(state.getExit())) {
                 visitAnother(state);
             }
-            //noFurther is a dummy list, only used to return out of this method.
-            final List<Node> noFurther = new ArrayList<>();
-            return noFurther;
+            //Return a dummy list, only used to return out of this method.
+            return new ArrayList<>();
         }
         else {
             return findWayOut(openList.peek(), NodeData);
