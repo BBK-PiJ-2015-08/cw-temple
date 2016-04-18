@@ -55,6 +55,8 @@ public class Explorer {
     }
 
     /**
+     * Greedily move to the node in the current neighbours that is closest to
+     * the target - the Orb.
      * @param state The EscapeState
      * @param visited Nodes already considered
      * @param startLocation Location of start point for this method call
@@ -128,12 +130,12 @@ public class Explorer {
     }
 
     /**
+     * seekGoldOrExit() goes for current highest gold tile, using dijkstra(),
+     * if time remains to treasure hunt. It recursively calls seekGoldOrExit();
+     * running out of time is the edge case and it can deal with this, as
+     * described below:
      * When running out of time, seekGoldOrExit defaults to using dijkstra()
-     * to find exit.
-     * When time remains to treasure hunt seekGoldOrExit goes for current
-     * highest gold tile, using dijkstra().
-     * Then recursively calls seekGoldOrExit; running out of time is the edge
-     * case and it can deal with this, as described above.
+     * to find the exit. It also recursively calls seekGoldOrExit().
      *
      * @param state the EscapeState we're working with
      * @param theGraph the entire graph from using state.getVertices()
@@ -156,6 +158,7 @@ public class Explorer {
         }
         int totalCosts = totalCosts(state.getCurrentNode(), highestOrNull,
                 exitNode);
+        //Time running out; move towards exit.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
@@ -172,6 +175,7 @@ public class Explorer {
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         } else {
+            //Time remains to treasure hunt; move towards highest gold.
             List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
@@ -191,7 +195,7 @@ public class Explorer {
      * @param highestOrNull The Node with the current highest gold (or pizza)
      * @param exitNode The final Node exitNode from escape()
      * @return An integer representing the total cost of moving to the current
-     * highest gold and then moving to the exit
+     * highest gold and then moving to the exit.
      */
     private int totalCosts(Node startNode, Node highestOrNull, Node exitNode) {
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
@@ -248,7 +252,7 @@ public class Explorer {
     /**
      * @param end The end of the path this method returns to dijkstra()
      * @param nodeData Must contain information about the path
-     * @return The path from current node to target node (end or highest gold)
+     * @return The path from current node to target node (end or highest gold).
      */
     private List<Node> findWayOut(Node end, HashMap<Node, NodeData> nodeData) {
         List<Node> wayOut = new ArrayList<>();
