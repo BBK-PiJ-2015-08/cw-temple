@@ -268,6 +268,11 @@ public class Explorer {
         }
     }
 
+    /**
+     * @param state
+     * Used to handle some extreme edge cases; just moves to a random node.
+     * Called recursively by dijkstra() while current node isn't equal to exit.
+     */
     private void visitAnother(EscapeState state) {
         Set<Node> edgesOut = state.getCurrentNode().getNeighbours();
         for (int i = 0; i<=1; i++)
