@@ -148,7 +148,7 @@ public class Explorer {
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
-        Node highest;
+        Node highest = null;
         int currentHighest = 0;
         for (Node n : theGraph) {
             if (n.getTile().getGold() > currentHighest) {
