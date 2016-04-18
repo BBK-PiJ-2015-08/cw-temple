@@ -162,7 +162,7 @@ public class Explorer {
             Edge checkLength = bothPaths.get(i).getEdge(bothPaths.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
-        if (state.getTimeRemaining() - 2000 < sumOfCosts) {
+        if (state.getTimeRemaining() - TIMECOMPARISON < sumOfCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             for (int i = 0; i < escapeNow.size(); i++) {
