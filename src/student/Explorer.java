@@ -160,7 +160,7 @@ public class Explorer {
                 exitNode, state);
         //Time running out; move towards exit.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
-            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode, state);
+            final List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode, state);
             escapeNow.remove(0);
             for (int i = 0; i < escapeNow.size(); i++) {
                 Node nxt = escapeNow.get(i);
@@ -232,7 +232,7 @@ public class Explorer {
             Node currentNode = openList.poll();
             NodeData currentData = NodeData.get(currentNode);
             if (state.getCurrentNode().equals(state.getExit())) {
-                List<Node> noFurther = new ArrayList<>();
+                final List<Node> noFurther = new ArrayList<>();
                 return noFurther;
             }
             else {
