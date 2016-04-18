@@ -143,23 +143,6 @@ public class Explorer {
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
-        List<Node> checkWayOut = dijkstra(startNode, exitNode);
-        int sumOfCosts = 0;
-        for (int i = 0; i+1 < checkWayOut.size(); i++) {
-            Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
-            sumOfCosts = sumOfCosts + checkLength.length;
-        }
-        if (state.getTimeRemaining() - TIMECOMPARISON < sumOfCosts) {
-            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
-            escapeNow.remove(0);
-            for (Node nxt : escapeNow) {
-                if (state.getCurrentNode().getTile().getGold() > 0) {
-                    state.pickUpGold();
-                }
-                state.moveTo(nxt);
-            }
-        }
-        else {
             Node highestOrNull = null;
             int currentHighest = 0;
             for (Node n : theGraph) {
@@ -168,6 +151,33 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
                 }
             }
+        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
+        List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
+        List<Node> bothPaths = new ArrayList<>();
+
+
+
+        int sumOfCosts = 0;
+        for (int i = 0; i+1 < bothPaths.size(); i++) {
+            Edge checkLength = bothPaths.get(i).getEdge(bothPaths.get(i+1));
+            sumOfCosts = sumOfCosts + checkLength.length;
+        }
+        if (state.getTimeRemaining() - 2000 < sumOfCosts) {
+            List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
+            escapeNow.remove(0);
+            for (int i = 0; i < escapeNow.size(); i++) {
+                Node nxt = escapeNow.get(i);
+                escapeNow.remove(nxt);
+                if (state.getCurrentNode().equals(exitNode)) {
+                    return;
+                }
+                if (state.getCurrentNode().getTile().getGold() > 0) {
+                    state.pickUpGold();
+                }
+                state.moveTo(nxt);
+            }
+        }
+        else {
             List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
