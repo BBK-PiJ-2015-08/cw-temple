@@ -175,6 +175,7 @@ public class Explorer {
                     state.pickUpGold();
                 }
                 state.moveTo(nxt);
+                seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         }
         else {
