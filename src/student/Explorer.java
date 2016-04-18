@@ -270,8 +270,10 @@ public class Explorer {
 
     private void visitAnother(EscapeState state) {
         Set<Node> edgesOut = state.getCurrentNode().getNeighbours();
+        for (int i = 0; i<=1; i++)
         for (Node e : edgesOut) {
             state.moveTo(e);
+            return;
         }
         /**
         Set<Node> edgesOutTwo = state.getCurrentNode().getNeighbours();
