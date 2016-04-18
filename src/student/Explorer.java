@@ -259,7 +259,6 @@ public class Explorer {
             while (!state.getCurrentNode().equals(state.getExit())) {
                 visitAnother(state);
             }
-            //state.moveTo(state.getExit());
             List<Node> noFurther = new ArrayList<>();
             return noFurther;
         }
