@@ -148,15 +148,15 @@ public class Explorer {
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
-        Node highestOrNull = null;
+        Node highest;
         int currentHighest = 0;
         for (Node n : theGraph) {
             if (n.getTile().getGold() > currentHighest) {
-                highestOrNull = n;
+                highest = n;
                     currentHighest = n.getTile().getGold();
             }
         }
-        int totalCosts = totalCosts(state.getCurrentNode(), highestOrNull,
+        int totalCosts = totalCosts(state.getCurrentNode(), highest,
                 exitNode, state);
         //Time running out; move towards exit.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
@@ -176,7 +176,7 @@ public class Explorer {
             }
         } else {
             //Time remains to treasure hunt; move towards highest gold.
-            List<Node> wayToHighest = dijkstra(startNode, highestOrNull, state);
+            List<Node> wayToHighest = dijkstra(startNode, highest, state);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
                 Node nxt = wayToHighest.get(i);
@@ -192,14 +192,14 @@ public class Explorer {
 
     /**
      * @param startNode the start point for this use of seekGoldOrExit
-     * @param highestOrNull The Node with the current highest gold (or pizza)
+     * @param highest The Node with the current highest gold (or pizza)
      * @param exitNode The final Node exitNode from escape()
      * @return An integer representing the total cost of moving to the current
      * highest gold and then moving to the exit.
      */
-    private int totalCosts(Node startNode, Node highestOrNull, Node exitNode, EscapeState state) {
-        List<Node> checkWayTarget = dijkstra(startNode, highestOrNull, state);
-        List<Node> checkWayOut = dijkstra(highestOrNull, exitNode, state);
+    private int totalCosts(Node startNode, Node highest, Node exitNode, EscapeState state) {
+        List<Node> checkWayTarget = dijkstra(startNode, highest, state);
+        List<Node> checkWayOut = dijkstra(highest, exitNode, state);
         if(!checkWayOut.isEmpty()) {
             checkWayOut.remove(0);
         }
@@ -259,7 +259,7 @@ public class Explorer {
                 visitAnother(state);
             }
             //noFurther is a dummy list, only used to return out of this method.
-            List<Node> noFurther = new ArrayList<>();
+            final List<Node> noFurther = new ArrayList<>();
             return noFurther;
         }
         else {
