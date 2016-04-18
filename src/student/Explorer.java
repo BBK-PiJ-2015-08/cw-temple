@@ -227,24 +227,23 @@ public class Explorer {
      */
     private List<Node> dijkstra(Node startNode, Node end, EscapeState state) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
+        HashMap<Node, NodeData> nodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
-        NodeData.put(startNode, new NodeData());
+        nodeData.put(startNode, new NodeData());
         while (!openList.isEmpty() && openList.peek() != end) {
             Node currentNode = openList.poll();
-            NodeData currentData = NodeData.get(currentNode);
+            NodeData currentData = nodeData.get(currentNode);
             if (state.getCurrentNode().equals(state.getExit())) {
                 return new ArrayList<>();
-            }
-            else {
+            } else {
                 Set<Edge> escapeEdges = currentNode.getExits();
                 for (Edge ed : escapeEdges) {
                     Node w = ed.getOther(currentNode);
-                    NodeData wData = NodeData.get(w);
+                    NodeData wData = nodeData.get(w);
                     double wDistance = currentData.distance + ed.length;
                     if (wData == null) {
                         openList.add(w, wDistance);
-                        NodeData.put(w, new NodeData(currentNode, wDistance));
+                        nodeData.put(w, new NodeData(currentNode, wDistance));
                     } else {
                         if (wDistance < wData.distance) {
                             openList.updatePriority(w, wDistance);
@@ -261,8 +260,7 @@ public class Explorer {
             }
             //Return a dummy list, only used to return out of this method.
             return new ArrayList<>();
-        }
-        else {
+        } else {
             return findWayOut(openList.peek(), NodeData);
         }
     }
