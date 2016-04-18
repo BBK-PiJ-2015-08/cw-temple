@@ -64,12 +64,10 @@ public class Explorer {
         for (NodeStatus n : nbs) {
             unsorted.add(n);
         }
-        Collections.sort(unsorted, new Comparator<NodeStatus>(){
-            public int compare(NodeStatus o1, NodeStatus o2){
-                if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
-                    return 0;
-                return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
-            }
+        Collections.sort(unsorted, (o1, o2) -> {
+            if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
+                return 0;
+            return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
         });
         Collection<NodeStatus> sortedNbs = unsorted;
         for (NodeStatus nb : sortedNbs) {
