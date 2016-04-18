@@ -280,7 +280,7 @@ public class Explorer {
                 state.pickUpGold();
             }
             state.moveTo(state.getExit());
-            return;
+            //return;
         } else {
             for (Node e : edgesOut) {
                 if (state.getCurrentNode().getTile().getGold() > 0) {
@@ -288,7 +288,7 @@ public class Explorer {
                 }
                 state.moveTo(e);
             }
-            return;
+            //return;
         }
     }
 
