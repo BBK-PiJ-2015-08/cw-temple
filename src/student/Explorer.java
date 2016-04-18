@@ -225,9 +225,14 @@ public class Explorer {
         return wayOut;
     }
 
+    /**
+     * A NodeData object holds information about a node, that being the previous
+     * node on a path to it, and the distance from the start node in the path to
+     * this node.
+     */
     private static class NodeData {
-        private Node prev;
-        private double distance;
+        private Node prev; // Holds the previous node on a path to this node.
+        private double distance; // Holds distance from start node to this node
         private NodeData(Node n, double dist) {
             prev = n;
             distance = dist;
