@@ -4,15 +4,11 @@ As an aside, please try watching him run the maze at top speed while listening
 to "Flight of the Bumblebee". You will not regret this.
 
 Additional methods in Explorer.java
-
-public void greedy (ExplorationState state, List<NodeStatus> visited, long startLocation)
-
-private void seekGoldOrExit(EscapeState state, Collection<Node> theGraph, Node startNode, Node exitNode)
-
-private List<Node> dijkstra(Node startNode, Node exitNode)
-
-private List<Node> findWayOut(Node end, HashMap<Node, NodeData> nodeData)
-
+* greedy() - Greedily move to the node in the current neighbours that is closest to the target - the Orb.
+* seekGoldOrExit() - Move to current highest gold tile, using dijkstra(), repeatedly, if time remains to treasure hunt. When running out of time (edge case), seekGoldOrExit() defaults to using dijkstra() to find the exit.
+* totalCosts() - Returns an integer representing the total cost of first moving to the current highest gold and then moving to the exit.
+* dijkstra() - Returns the path from startNode to end (our current target).
+* findWayOut() - Returns the path from current node to target node (end or highest gold).
 Explorer.java contains a nested inner class, NodeData. For a given Node, a
 NodeData object holds information about the previous node on a path to this Node
 and the distance from the start node in the path to this node.

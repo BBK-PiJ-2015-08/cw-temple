@@ -218,15 +218,15 @@ public class Explorer {
 
     /**
      * @param startNode The Node we are using dijkstra() to seek a path from.
-     * @param exitNode The Node we are using dijkstra() to seek a path to.
-     * @return The path from startNode to exitNode.
+     * @param end The Node we are using dijkstra() to seek a path to.
+     * @return The path from startNode to end (our current target).
      */
-    private List<Node> dijkstra(Node startNode, Node exitNode) {
+    private List<Node> dijkstra(Node startNode, Node end) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
         HashMap<Node, NodeData> nodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
         nodeData.put(startNode, new NodeData());
-        while (!openList.isEmpty() && openList.peek() != exitNode) {
+        while (!openList.isEmpty() && openList.peek() != end) {
             Node currentNode = openList.poll();
             NodeData currentCost = nodeData.get(currentNode);
             Set<Edge> escapeEdges = currentNode.getExits();
