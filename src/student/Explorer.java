@@ -178,7 +178,6 @@ public class Explorer {
                     state.pickUpGold();
                 }
                 state.moveTo(nxt);
-                theGraph = state.getVertices();
                 seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         }
@@ -195,7 +194,6 @@ public class Explorer {
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
         List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
         checkWayOut.remove(0);
-
         int costToTarget = 0;
         int costTargetToExit = 0;
         for (int i = 0; i+1 < checkWayTarget.size(); i++) {
@@ -211,20 +209,20 @@ public class Explorer {
 
     private List<Node> dijkstra(Node startNode, Node exitNode) {
         PriorityQueueImpl<Node> openList = new PriorityQueueImpl<>();
-        HashMap<Node, NodeData> NodeData = new HashMap<Node, NodeData>();
+        HashMap<Node, NodeData> nodeData = new HashMap<Node, NodeData>();
         openList.add(startNode, 0);
-        NodeData.put(startNode, new NodeData());
+        nodeData.put(startNode, new NodeData());
         while (!openList.isEmpty() && openList.peek() != exitNode) {
             Node currentNode = openList.poll();
-            NodeData currentCost = NodeData.get(currentNode);
+            NodeData currentCost = nodeData.get(currentNode);
             Set<Edge> escapeEdges = currentNode.getExits();
             for (Edge ed : escapeEdges) {
                 Node w = ed.getOther(currentNode);
-                NodeData wCost = NodeData.get(w);
+                NodeData wCost = nodeData.get(w);
                 double wDistance = currentCost.distance + ed.length;
                 if (wCost == null) {
                     openList.add(w, wDistance);
-                    NodeData.put(w, new NodeData(currentNode, wDistance));
+                    nodeData.put(w, new NodeData(currentNode, wDistance));
                 }
                 else {
                     if (wDistance < wCost.distance) {
@@ -235,7 +233,7 @@ public class Explorer {
                 }
             }
         }
-        return findWayOut(openList.peek(), NodeData);
+        return findWayOut(openList.peek(), nodeData);
     }
 
     /**
