@@ -287,8 +287,9 @@ public class Explorer {
                     state.pickUpGold();
                 }
                 state.moveTo(e);
-                return;
+                //return;
             }
+            return;
         }
     }
 
