@@ -151,10 +151,7 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
             }
         }
-
-        //This should be its own method
         int totalCosts = combinedCosts(state.getCurrentNode(), highestOrNull, exitNode);
-        //Up to here.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
@@ -187,6 +184,13 @@ public class Explorer {
         }
     }
 
+    /**
+     * @param startNode the start point for this use of seekGoldOrExit
+     * @param highestOrNull The Node with the current highest gold (or pizza)
+     * @param exitNode The final Node exitNode from escape()
+     * @return An integer representing the total cost of moving to the current
+     * highest gold and then moving to the exit
+     */
     private int combinedCosts(Node startNode, Node highestOrNull, Node exitNode) {
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
         List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
