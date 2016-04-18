@@ -275,9 +275,13 @@ public class Explorer {
      */
     private void visitAnother(EscapeState state) {
         Set<Node> edgesOut = state.getCurrentNode().getNeighbours();
-        for (Node e : edgesOut) {
-            state.moveTo(e);
-            return;
+        if (edgesOut.contains(state.getExit())) {
+            state.moveTo(state.getExit());
+        } else {
+            for (Node e : edgesOut) {
+                state.moveTo(e);
+                return;
+            }
         }
     }
 
