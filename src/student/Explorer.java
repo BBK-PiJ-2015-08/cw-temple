@@ -149,9 +149,9 @@ public class Explorer {
         if (state.getTimeRemaining() - TIMECOMPARISON < sumOfCosts) {
             final List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
-            for (Node f : escapeNow) {
-                state.moveTo(f);
-                if (f.getTile().getGold() > 0) {
+            for (Node nxt : escapeNow) {
+                state.moveTo(nxt);
+                if (nxt.getTile().getGold() > 0) {
                     state.pickUpGold();
                 }
             }
@@ -168,14 +168,14 @@ public class Explorer {
             final List<Node> wayToHighest = dijkstra(startNode, highestOrNull);
             wayToHighest.remove(0);
             for (int i = 0; i < wayToHighest.size(); i++) {
-                final Node f = wayToHighest.get(i);
-                wayToHighest.remove(f);
-                state.moveTo(f);
-                if (f.getTile().getGold() > 0) {
+                final Node nxt = wayToHighest.get(i);
+                wayToHighest.remove(nxt);
+                state.moveTo(nxt);
+                if (nxt.getTile().getGold() > 0) {
                     state.pickUpGold();
                 }
                 theGraph = state.getVertices();
-                seekGoldOrExit(state, theGraph, f, exitNode);
+                seekGoldOrExit(state, theGraph, nxt, exitNode);
             }
         }
     }
