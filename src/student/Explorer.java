@@ -259,7 +259,7 @@ public class Explorer {
             while (!state.getCurrentNode().equals(state.getExit())) {
                 visitAnother(state);
             }
-            //state.moveTo(state.getExit());
+            state.moveTo(state.getExit());
             List<Node> noFurther = new ArrayList<>();
             return noFurther;
         }
@@ -275,7 +275,6 @@ public class Explorer {
      */
     private void visitAnother(EscapeState state) {
         Set<Node> edgesOut = state.getCurrentNode().getNeighbours();
-        for (int i = 0; i<=1; i++)
         for (Node e : edgesOut) {
             state.moveTo(e);
             return;
