@@ -56,7 +56,7 @@ public class Explorer {
 
     /**
      * Greedily move to the node in the current neighbours that is closest to
-     * the target - the Orb.
+     * the target (the Orb).
      * @param state The EscapeState
      * @param visited Nodes already considered
      * @param startLocation Location of start point for this method call
