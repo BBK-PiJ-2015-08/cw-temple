@@ -143,14 +143,14 @@ public class Explorer {
         if (state.getCurrentNode().equals(exitNode)) {
             return;
         }
-            Node highestOrNull = null;
-            int currentHighest = 0;
-            for (Node n : theGraph) {
-                if (n.getTile().getGold() > currentHighest) {
-                    highestOrNull = n;
+        Node highestOrNull = null;
+        int currentHighest = 0;
+        for (Node n : theGraph) {
+            if (n.getTile().getGold() > currentHighest) {
+                highestOrNull = n;
                     currentHighest = n.getTile().getGold();
-                }
             }
+        }
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
         List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
         checkWayOut.remove(0);
@@ -165,15 +165,8 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             costTargetToExit = costTargetToExit + checkLength.length;
         }
-
         int totalCosts = costToTarget + costTargetToExit;
-/**
-        int sumOfCosts = 0;
-        for (int i = 0; i+1 < bothPaths.size(); i++) {
-            Edge checkLength = bothPaths.get(i).getEdge(bothPaths.get(i+1));
-            sumOfCosts = sumOfCosts + checkLength.length;
-        }
- */
+
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
