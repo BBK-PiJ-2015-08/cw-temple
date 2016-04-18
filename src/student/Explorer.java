@@ -47,6 +47,8 @@ public class Explorer {
      * @param state the information available at the current state
      */
 
+    private final int TIMECOMPARISON = 1369;
+
     public void explore(ExplorationState state) {
         List<NodeStatus> visited = new ArrayList<NodeStatus>();
         greedy(state, visited, state.getCurrentLocation());
@@ -145,7 +147,7 @@ public class Explorer {
             Edge checkLength = checkWayOut.get(i).getEdge(checkWayOut.get(i+1));
             sumOfCosts = sumOfCosts + checkLength.length;
         }
-        if (state.getTimeRemaining() - 1369 < sumOfCosts) {
+        if (state.getTimeRemaining() - TIMECOMPARISON < sumOfCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
             for (Node f : escapeNow) {
