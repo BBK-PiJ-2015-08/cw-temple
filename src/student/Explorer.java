@@ -151,6 +151,8 @@ public class Explorer {
                     currentHighest = n.getTile().getGold();
             }
         }
+
+        //This should be its own method
         List<Node> checkWayTarget = dijkstra(startNode, highestOrNull);
         List<Node> checkWayOut = dijkstra(highestOrNull, exitNode);
         checkWayOut.remove(0);
@@ -166,7 +168,7 @@ public class Explorer {
             costTargetToExit = costTargetToExit + checkLength.length;
         }
         int totalCosts = costToTarget + costTargetToExit;
-
+        //Up to here.
         if (state.getTimeRemaining() - TIMECOMPARISON < totalCosts) {
             List<Node> escapeNow = dijkstra(state.getCurrentNode(), exitNode);
             escapeNow.remove(0);
