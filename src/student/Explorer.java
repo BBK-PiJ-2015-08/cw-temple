@@ -275,13 +275,6 @@ public class Explorer {
             state.moveTo(e);
             return;
         }
-        /**
-        Set<Node> edgesOutTwo = state.getCurrentNode().getNeighbours();
-        for (Node n : edgesOutTwo) {
-            state.moveTo(n);
-
-        }
-        */
     }
 
     /**
