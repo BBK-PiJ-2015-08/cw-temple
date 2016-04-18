@@ -122,14 +122,12 @@ public class Explorer {
     }
 
     /**
-     *
-     * When running out of time, seekGoldOrExit will default to using dijkstra()
-     * to find the exit.
-     * When there's still enough time to hunt for more gold, seekGoldOrExit
-     * goes for the tile that currently has the highest gold, using dijkstra()
-     * to find the path to that tile.
-     * Then recursively calls seekGoldOrExit to repeat the above; running out of
-     * time is the edge case and it can deal with this, as described above.
+     * When running out of time, seekGoldOrExit defaults to using dijkstra()
+     * to find exit.
+     * When time remains to treasure hunt seekGoldOrExit goes for current
+     * highest gold tile, using dijkstra().
+     * Then recursively calls seekGoldOrExit; running out of time is the edge
+     * case and it can deal with this, as described above.
      *
      * @param state the EscapeState we're working with
      * @param theGraph the entire graph from using state.getVertices()
