@@ -231,8 +231,14 @@ public class Explorer {
      * this node.
      */
     private static class NodeData {
-        private Node prev; // Holds the previous node on a path to this node.
-        private double distance; // Holds distance from start node to this node
+        /**
+         * prev Holds the previous node on a path to this node.
+         */
+        private Node prev;
+        /**
+         * distance holds distance in path from start node to this node
+         */
+        private double distance;
         private NodeData(Node n, double dist) {
             prev = n;
             distance = dist;
