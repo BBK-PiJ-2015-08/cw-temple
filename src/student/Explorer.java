@@ -315,19 +315,19 @@ public class Explorer {
         /**
          * prev Holds the previous node on a path to this node.
          */
-        private Node prev;
+        private static Node prev;
         /**
          * Distance holds distance in path from start node to this node.
          */
-        private double distance;
+        private static double distance;
 
         /**
          * @param n The previous node.
          * @param dist The distance from the previous to this node.
          */
         private NodeData(Node n, double dist) {
-            prev = n;
-            distance = dist;
+            this.prev = n;
+            this.distance = dist;
         }
 
         /**
