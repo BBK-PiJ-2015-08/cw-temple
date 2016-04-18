@@ -65,8 +65,9 @@ public class Explorer {
             unsorted.add(n);
         }
         Collections.sort(unsorted, (o1, o2) -> {
-            if(o1.getDistanceToTarget() == o2.getDistanceToTarget())
+            if(o1.getDistanceToTarget() == o2.getDistanceToTarget()) {
                 return 0;
+            }
             return o1.getDistanceToTarget() < o2.getDistanceToTarget() ? -1 : 1;
         });
         Collection<NodeStatus> sortedNbs = unsorted;
